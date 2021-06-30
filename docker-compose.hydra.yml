@@ -1,0 +1,12 @@
+#https://github.com/TribalScale/kafka-waffle-stack
+
+version: "3.9" 
+services:
+
+  hydra:
+    image: oryd/hydra:v1.10.2
+    container_name: hydra
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
+    command:
+      migrate -c /etc/config/hydra/hydra.yml sql -e --yes

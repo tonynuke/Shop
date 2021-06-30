@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+
+  catalog:
+    container_name: catalog
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.WebService/Dockerfile
+    ports:
+      - 5010:80
+      - 5011:443
+    depends_on:
+      - mongo
+
+  basket:
+    container_name: basket
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.WebService/Dockerfile
+    ports:
+      - 5020:80
+      - 5021:80
+    depends_on:
+      - mongo

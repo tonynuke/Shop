@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>62ab1bb9-3138-4af3-bbfe-86aff70e38f5</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Mapster" Version="7.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\..\Catalog\Catalog.Client\Catalog.Client.csproj" />
+		<ProjectReference Include="..\Basket\Basket.csproj" />
+	</ItemGroup>
+
+	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+		<PropertyGroup>
+			<OpenApiDir>..\Basket.Client\OpenApi</OpenApiDir>
+			<WebServiceAssembly>$(OutputPath)$(AssemblyName).dll</WebServiceAssembly>
+		</PropertyGroup>
+		<MakeDir Directories="$(OpenApiDir)" />
+		<Exec Command="dotnet swagger tofile --output $(OpenApiDir)\v1.json $(WebServiceAssembly) v1" />
+	</Target>
+
+</Project>

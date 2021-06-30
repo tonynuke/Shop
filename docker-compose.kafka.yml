@@ -1,0 +1,130 @@
+#https://github.com/TribalScale/kafka-waffle-stack
+
+version: '3' 
+services:
+
+  # ZooKeeper is a centralized service for maintaining configuration information,
+  # naming, providing distributed synchronization, and providing group services.
+  # It provides distributed coordination for our Kafka cluster.
+  # http://zookeeper.apache.org/
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  
+  # Kafka is a distributed streaming platform. It is used to build real-time streaming
+  # data pipelines that reliably move data between systems and platforms, and to build
+  # real-time streaming applications that transform or react to the streams of data.
+  # http://kafka.apache.org/  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - 9092:9092
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://127.0.0.1:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+  
+  # Written and open sourced by Confluent, the Schema Registry for Apache Kafka enables
+  # developers to define standard schemas for their events, share them across the
+  # organization and safely evolve them in a way that is backward compatible and future proof.
+  # https://www.confluent.io/confluent-schema-registry/
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema-registry
+    ports:
+      - 8081:8081
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+  
+  # A web tool that allows you to create / view / search / evolve / view
+  # history & configure Avro schemas of your Kafka cluster.
+  # https://github.com/Landoop/schema-registry-ui
+  schema-registry-ui:
+    image: landoop/schema-registry-ui:latest
+    container_name: schema-registry-ui
+    hostname: schema-registry-ui
+    ports:
+      - 8001:8000
+    environment:
+      SCHEMAREGISTRY_URL: http://schema-registry:8081/
+      PROXY: "true"
+    depends_on:
+      - schema-registry
+  
+  # The Kafka REST Proxy provides a RESTful interface to a Kafka cluster.
+  # It makes it easy to produce and consume messages, view the state
+  # of the cluster, and perform administrative actions without using
+  # the native Kafka protocol or clients.
+  # https://github.com/confluentinc/kafka-rest
+  kafka-rest-proxy:
+    image: confluentinc/cp-kafka-rest:latest
+    container_name: kafka-rest-proxy
+    ports:
+      - 8082:8082
+    environment:
+      KAFKA_REST_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8082/
+      KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081/
+      KAFKA_REST_HOST_NAME: kafka-rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
+  
+  # Browse Kafka topics and understand what's happening on your cluster.
+  # Find topics / view topic metadata / browse topic data
+  # (kafka messages) / view topic configuration / download data.
+  # https://github.com/Landoop/kafka-topics-ui
+  kafka-topics-ui:
+    image: landoop/kafka-topics-ui:latest
+    container_name: kafka-topics-ui
+    ports:
+      - 8000:8000
+    environment:
+      KAFKA_REST_PROXY_URL: "http://kafka-rest-proxy:8082/"
+      PROXY: "true"
+    depends_on:
+      - kafka-rest-proxy
+  
+  # API for ZooNavigator, web-based browser & editor for ZooKeeper.
+  # https://github.com/elkozmon/zoonavigator-api
+  zoonavigator-api:
+    image: elkozmon/zoonavigator-api:latest
+    container_name: zoonavigator-api
+    environment:
+      API_HTTP_PORT: 9000
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+  
+  # Web client for ZooNavigator, web-based browser & editor for ZooKeeper.
+  # https://github.com/elkozmon/zoonavigator-web
+  # Connection string: zookeeper:2181 no user / no password just click Connect
+  zoonavigator-web:
+    image: elkozmon/zoonavigator-web:latest
+    container_name: zoonavigator-web
+    ports:
+      - 8003:8000
+    environment:
+      API_HOST: "zoonavigator-api"
+      API_PORT: 9000
+    depends_on:
+      - zoonavigator-api
+    restart: unless-stopped

@@ -1,0 +1,785 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Identity.WebApplication",
+    "version": "v1"
+  },
+  "paths": {
+    "/Account/login": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "operationId": "Login",
+        "parameters": [
+          {
+            "name": "returnUrl",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Clients": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "operationId": "CreateClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Clients/{clientId}": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "operationId": "GetClient",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Home/error": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "operationId": "Error",
+        "parameters": [
+          {
+            "name": "errorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Resources/api-resource": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "CreateApiResource",
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Resources/create-role": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "CreateRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Resources/add-claim-to-role": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "AddClaimToRole",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Resources/add-user-to-role": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "AddUserToRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserToRoleModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserToRoleModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserToRoleModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/sign-up": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "SignUp",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/log-in": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "LogIn",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/log-out": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "LogOut",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessTokenType": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "AddUserToRoleModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Client": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "protocolType": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientSecrets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Secret"
+            },
+            "nullable": true
+          },
+          "requireClientSecret": {
+            "type": "boolean"
+          },
+          "clientName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "logoUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "requireConsent": {
+            "type": "boolean"
+          },
+          "allowRememberConsent": {
+            "type": "boolean"
+          },
+          "allowedGrantTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "requirePkce": {
+            "type": "boolean"
+          },
+          "allowPlainTextPkce": {
+            "type": "boolean"
+          },
+          "requireRequestObject": {
+            "type": "boolean"
+          },
+          "allowAccessTokensViaBrowser": {
+            "type": "boolean"
+          },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "frontChannelLogoutUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "frontChannelLogoutSessionRequired": {
+            "type": "boolean"
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "backChannelLogoutSessionRequired": {
+            "type": "boolean"
+          },
+          "allowOfflineAccess": {
+            "type": "boolean"
+          },
+          "allowedScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "alwaysIncludeUserClaimsInIdToken": {
+            "type": "boolean"
+          },
+          "identityTokenLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowedIdentityTokenSigningAlgorithms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "accessTokenLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "authorizationCodeLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "absoluteRefreshTokenLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "slidingRefreshTokenLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consentLifetime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "refreshTokenUsage": {
+            "$ref": "#/components/schemas/TokenUsage"
+          },
+          "updateAccessTokenClaimsOnRefresh": {
+            "type": "boolean"
+          },
+          "refreshTokenExpiration": {
+            "$ref": "#/components/schemas/TokenExpiration"
+          },
+          "accessTokenType": {
+            "$ref": "#/components/schemas/AccessTokenType"
+          },
+          "enableLocalLogin": {
+            "type": "boolean"
+          },
+          "identityProviderRestrictions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "includeJwtId": {
+            "type": "boolean"
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClientClaim"
+            },
+            "nullable": true
+          },
+          "alwaysSendClientClaims": {
+            "type": "boolean"
+          },
+          "clientClaimsPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "pairWiseSubjectSalt": {
+            "type": "string",
+            "nullable": true
+          },
+          "userSsoLifetime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userCodeType": {
+            "type": "string",
+            "nullable": true
+          },
+          "deviceCodeLifetime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowedCorsOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientClaim": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateClientModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateRoleModel": {
+        "type": "object",
+        "properties": {
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Secret": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SignInModel": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SignUpModel": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TokenExpiration": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TokenUsage": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://localhost:5001/connect/authorize",
+            "tokenUrl": "https://localhost:5001/connect/token",
+            "scopes": {
+              "identity": "full"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="2.20.0" />
+		<PackageReference Include="MassTransit" Version="7.2.2" />
+		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+	  <ProjectReference Include="..\..\..\Shared\DataAccess\DataAccess.csproj" />
+	  <ProjectReference Include="..\Catalog.Messages\Catalog.Messages.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Persistence\Migrations\" />
+	</ItemGroup>
+
+</Project>

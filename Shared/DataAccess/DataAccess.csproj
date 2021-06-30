@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="2.20.0" />
+		<PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+		<PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+		<PackageReference Include="MongoDB.Driver.GridFS" Version="2.13.1" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Tonynuke.Specifications" Version="1.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+
+</Project>

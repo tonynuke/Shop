@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<OpenApiReference Include="OpenApi\v1.json" CodeGenerator="NSwagCSharp" Namespace="$(AssemblyName).V1" ClassName="NotificationsClient" Options="/UseBaseUrl:false /GenerateClientInterfaces:true" />
+		<OpenApiReference Include="OpenApi\v1_1.json" CodeGenerator="NSwagCSharp" Namespace="$(AssemblyName).V1_1" ClassName="NotificationsClient" Options="/UseBaseUrl:false /GenerateClientInterfaces:true /additionalNamespaceUsages:$(AssemblyName).V1" />
+		<OpenApiReference Include="OpenApi\v2.json" CodeGenerator="NSwagCSharp" Namespace="$(AssemblyName).V2" ClassName="NotificationsClient" Options="/UseBaseUrl:false /GenerateClientInterfaces:true /additionalNamespaceUsages:$(AssemblyName).V1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="5.0.9">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.13.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>

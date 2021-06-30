@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>e61664e9-b75b-434e-b168-22c8a62f51f8</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MassTransit.AspNetCore" Version="7.2.2" />
+		<PackageReference Include="MassTransit.Kafka" Version="7.2.2" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\Notifications.Persistence\Notifications.Persistence.csproj" />
+		<ProjectReference Include="..\Notifications.Services\Notifications.Services.csproj" />
+	</ItemGroup>
+
+	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+		<PropertyGroup>
+			<OpenApiDir>..\Notifications.Client\OpenApi</OpenApiDir>
+			<WebServiceAssembly>$(OutputPath)$(AssemblyName).dll</WebServiceAssembly>
+		</PropertyGroup>
+		<MakeDir Directories="$(OpenApiDir)" />
+		<Exec Command="dotnet swagger tofile --output $(OpenApiDir)\v1.json $(WebServiceAssembly) v1" />
+		<Exec Command="dotnet swagger tofile --output $(OpenApiDir)\v1_1.json $(WebServiceAssembly) v1.1" />
+		<Exec Command="dotnet swagger tofile --output $(OpenApiDir)\v2.json $(WebServiceAssembly) v2" />
+	</Target>
+
+</Project>

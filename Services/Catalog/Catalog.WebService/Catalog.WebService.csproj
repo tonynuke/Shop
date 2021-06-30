@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>2fef6405-5cc6-4780-95b0-89c4f71c1bd8</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DockerfileContext>..\..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Mapster" Version="7.2.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="5.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+		<PackageReference Include="NEST" Version="7.14.1" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\..\..\Shared\DataAccess\DataAccess.csproj" />
+		<ProjectReference Include="..\Catalog\Catalog.csproj" />
+	</ItemGroup>
+
+	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+		<PropertyGroup>
+			<OpenApiDir>..\Catalog.Client\OpenApi</OpenApiDir>
+			<WebServiceAssembly>$(OutputPath)$(AssemblyName).dll</WebServiceAssembly>
+		</PropertyGroup>
+		<MakeDir Directories="$(OpenApiDir)" />
+		<Exec Command="dotnet swagger tofile --output $(OpenApiDir)\v1.json $(WebServiceAssembly) v1" />
+	</Target>
+
+</Project>
