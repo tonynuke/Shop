@@ -11,20 +11,6 @@ namespace Basket.Services
     public interface IBasketsService
     {
         /// <summary>
-        /// Adds or updates the basket item.
-        /// </summary>
-        /// <param name="dto">Dto.</param>
-        /// <returns>Basket.</returns>
-        Task<Result<Domain.Basket>> AddOrUpdateBasketItem(AddOrUpdateBasketItemDto dto);
-
-        /// <summary>
-        /// Removes the item from the basket.
-        /// </summary>
-        /// <param name="dto">Dto.</param>
-        /// <returns>Basket.</returns>
-        Task<Result<Domain.Basket>> RemoveItemFromBasket(RemoveItemFromBasketDto dto);
-
-        /// <summary>
         /// Gets or creates a basket.
         /// </summary>
         /// <param name="buyerId">Buyer identifier.</param>
@@ -33,10 +19,17 @@ namespace Basket.Services
         Task<Domain.Basket> GetOrCreateBasket(Guid buyerId);
 
         /// <summary>
+        /// Updates the basket.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Basket.</returns>
+        Task<Result<Domain.Basket>> UpdateBasket(UpdateBasketDto dto);
+
+        /// <summary>
         /// Clears the basket.
         /// </summary>
         /// <param name="buyerId">Buyer identifier.</param>
-        /// <returns>Asynchronous operation.</returns>
-        Task<Result> ClearBasket(Guid buyerId);
+        /// <returns>Basket.</returns>
+        Task<Result<Domain.Basket>> ClearBasket(Guid buyerId);
     }
 }

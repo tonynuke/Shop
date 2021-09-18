@@ -1,10 +1,7 @@
 using Basket.Persistence;
 using Basket.Services;
-using Catalog.Client.V1;
 using Common.AspNetCore;
-using Common.AspNetCore.Auth;
 using Common.AspNetCore.Configuration;
-using Common.Configuration;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,17 +27,16 @@ namespace Basket.WebService
             services.ConfigureMongoDb(Configuration);
             services.AddMongoDbContext<BasketContext>();
             services.AddSingleton<IBasketsService, BasketsService>();
-            var catalogEndpointUrl = Configuration.GetConnectionString("Catalog");
+            //var catalogEndpointUrl = Configuration.GetConnectionString("Catalog");
 
-            var crossAuthConfig = Configuration.GetSection(CrossServiceAuthConfiguration.Key);
-            services.Configure<CrossServiceAuthConfiguration>(crossAuthConfig);
+            //var crossAuthConfig = Configuration.GetSection(CrossServiceAuthConfiguration.Key);
+            //services.Configure<CrossServiceAuthConfiguration>(crossAuthConfig);
+            //services.AddScoped<CrossServiceAuthHandler>();
+            //services.ConfigureCrossServiceAuthHttpClient();
 
-            services.AddScoped<CrossServiceAuthHandler>();
-            services.ConfigureCrossServiceAuthHttpClient();
-
-            services
-                .ConfigureHttpClient<ICatalogClient, CatalogClient>(catalogEndpointUrl)
-                .AddHttpMessageHandler<CrossServiceAuthHandler>();
+            //services
+            //    .ConfigureHttpClient<ICatalogClient, CatalogClient>(catalogEndpointUrl)
+            //    .AddHttpMessageHandler<CrossServiceAuthHandler>();
 
             TypeAdapterConfig.GlobalSettings.Scan(typeof(Mapper).Assembly);
         }

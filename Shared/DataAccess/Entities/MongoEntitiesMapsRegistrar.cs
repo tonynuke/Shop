@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 
@@ -78,6 +79,7 @@ namespace DataAccess.Entities
             var conventionPack = new ConventionPack
             {
                 new CamelCaseElementNameConvention(),
+                new EnumRepresentationConvention(BsonType.String),
             };
             const string baseConventions = "Base Conventions";
             ConventionRegistry.Register(baseConventions, conventionPack, _ => true);

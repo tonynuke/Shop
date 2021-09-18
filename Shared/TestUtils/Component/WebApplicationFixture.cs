@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace TestUtils.Component
 {
@@ -29,6 +30,9 @@ namespace TestUtils.Component
                 .Build();
         }
 
+        /// <summary>
+        /// Gets configuration.
+        /// </summary>
         public IConfiguration Configuration => _configuration;
 
         /// <inheritdoc/>
@@ -50,9 +54,8 @@ namespace TestUtils.Component
                     })
                 .ConfigureLogging(loggingBuilder =>
                 {
-                    // TODO: multiple test stuck.
+                    // configure logging
                     // loggingBuilder.ClearProviders();
-                    // loggingBuilder.AddXunit();
                 }));
         }
     }

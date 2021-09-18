@@ -18,7 +18,6 @@ const clientGenCommandTemplate = (specificationPath, moduleName, clientName, cla
 const clientGenCommands = [
     clientGenCommandTemplate("../ApiGateways/ApiGateway.Client/OpenApi/v1.json", "api", "client.ts"),
     clientGenCommandTemplate("../Services/Identity/Identity.Client/OpenApi/v1.json", "identity", "client.ts", "IdentityClient"),
-    clientGenCommandTemplate("../Services/Basket/Basket.Client/OpenApi/v1.json", "basket", "client.ts"),
     clientGenCommandTemplate("../Services/Catalog/Catalog.Client/OpenApi/v1.json", "catalog", "client.ts"),
 ];
 

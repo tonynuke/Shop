@@ -70,6 +70,7 @@ namespace Catalog.WebService.Controllers.V1
         /// </summary>
         /// <param name="model">Model.</param>
         /// <returns>Brand id.</returns>
+        [Authorize(AuthorizationPolicies.Catalog)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateBrand(CreateBrandDto model)

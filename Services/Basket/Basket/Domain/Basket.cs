@@ -18,10 +18,18 @@ namespace Basket.Domain
         /// Initializes a new instance of the <see cref="Basket"/> class.
         /// </summary>
         /// <param name="buyerId">Buyer Id.</param>
-        public Basket(Guid buyerId)
+        /// <param name="creationDate">Creation date.</param>
+        public Basket(Guid buyerId, DateTime creationDate)
         {
             Id = buyerId;
+            CreationDate = creationDate;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether basket is empty.
+        /// </summary>
+        [BsonIgnore]
+        public bool IsEmpty => !_items.Any();
 
         /// <summary>
         /// Gets items.
@@ -32,6 +40,12 @@ namespace Basket.Domain
             get => _items;
             private set => _items = value.ToHashSet();
         }
+
+        /// <summary>
+        /// Gets creation date.
+        /// </summary>
+        [BsonElement("creationDate")]
+        public DateTime CreationDate { get; private set; }
 
         /// <summary>
         /// Adds or updates the <paramref name="item"/> to the basket.
@@ -62,6 +76,19 @@ namespace Basket.Domain
         public Maybe<BasketItem> FindItem(Guid catalogItemId)
         {
             return _items.SingleOrDefault(item => item.Id == catalogItemId);
+        }
+
+        /// <summary>
+        /// Replaces basket items with <paramref name="items"/>.
+        /// </summary>
+        /// <param name="items">Items.</param>
+        public void ReplaceBasketItems(IReadOnlyCollection<BasketItem> items)
+        {
+            Clear();
+            foreach (var item in items)
+            {
+                AddOrUpdateItem(item);
+            }
         }
 
         /// <summary>

@@ -51,7 +51,8 @@ namespace DataAccess
             var filter = CreateFilter(entity);
             entity.UpdateOccVersion();
 
-            var result = await collection.UpdateOneAsync(filter, update);
+            var internalUpdate = update.Set(e => e.OccVersion, entity.OccVersion);
+            var result = await collection.UpdateOneAsync(filter, internalUpdate);
             if (result.ModifiedCount == 0)
             {
                 throw new MongoDbConcurrencyException();

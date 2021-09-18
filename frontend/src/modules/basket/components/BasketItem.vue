@@ -16,13 +16,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { IBasketItemDto } from "../client/client";
+import { IUserBasketItemDto } from "@/modules/api/client/client";
 
 export default defineComponent({
   name: "BasketItem",
   props: {
     item: {
-      type: Object as PropType<IBasketItemDto>,
+      type: Object as PropType<IUserBasketItemDto>,
       required: true,
     },
   },

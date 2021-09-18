@@ -1,6 +1,6 @@
 ﻿using Common.Pagination;
 
-namespace Catalog.Services.Items.Dto
+namespace Catalog.Indexing
 {
     /// <summary>
     /// Items query dto.

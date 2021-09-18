@@ -128,3 +128,15 @@ services:
     depends_on:
       - zoonavigator-api
     restart: unless-stopped
+    
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    ports:
+      - 9001:9000
+    environment:
+      KAFKA_BROKERCONNECT: PLAINTEXT://kafka:9092
+      JVM_OPTS: -Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
+      SCHEMAREGISTRY_CONNECT: http://schema-registry:8081
+    depends_on:
+      - kafka

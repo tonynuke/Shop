@@ -17,6 +17,8 @@ namespace TestUtils
         private readonly IdentityConfiguration _identityConfiguration;
         private readonly SigningCredentials _signingCredentials;
 
+        private static Claim SubjectClaim(string id) => new ("sub", id);
+
         public AccessTokenGenerator(IdentityConfiguration configuration)
         {
             _identityConfiguration = configuration;
@@ -32,23 +34,22 @@ namespace TestUtils
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, role),
-                new Claim("sub", id),
+                SubjectClaim(id),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, id)
             };
 
             return GenerateJwtToken(claims);
         }
 
-        public string GetJwtTokenByScopes(Guid userId, params string[] scopes)
+        public string GetJwtTokenByClaims(Guid userId, params Claim[] claims)
         {
             string id = userId.ToString();
 
-            var claims = scopes
-                .Select(scope => new Claim("scope", scope))
-                .Append(new Claim("sub", id))
+            var resultClaims = claims
+                .Append(SubjectClaim(id))
                 .Append(new Claim(ClaimsIdentity.DefaultNameClaimType, id));
 
-            return GenerateJwtToken(claims);
+            return GenerateJwtToken(resultClaims);
         }
 
         private static DateTimeOffset TruncateMilliseconds(DateTimeOffset dateTime)

@@ -27,18 +27,18 @@ namespace Catalog.Services.Items
         Task<Result> UpdateOne(UpdateItemDto dto);
 
         /// <summary>
-        /// Searches items.
-        /// </summary>
-        /// <param name="dto">Dto.</param>
-        /// <returns>Items.</returns>
-        Task<IReadOnlyCollection<Indexing.Item>> SearchItems(ItemsQueryDto dto);
-
-        /// <summary>
         /// Finds the item.
         /// </summary>
         /// <param name="id">Item id.</param>
         /// <returns>Item.</returns>
         Task<CatalogItem> FindOne(Guid id);
+
+        /// <summary>
+        /// Finds items.
+        /// </summary>
+        /// <param name="ids">Items ids.</param>
+        /// <returns>Items.</returns>
+        Task<IReadOnlyCollection<CatalogItem>> FindMany(IEnumerable<Guid> ids);
 
         /// <summary>
         /// Deletes the item.

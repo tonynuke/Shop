@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Basket.Domain;
 using Basket.Services;
-using Basket.Services.Dto;
 using Basket.WebService.Dto;
 using Common.Api;
 using Common.AspNetCore.Auth;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AddOrUpdateBasketItemDto = Basket.Services.Dto.AddOrUpdateBasketItemDto;
+using UpdateBasketDto = Basket.Services.Dto.UpdateBasketDto;
 
 namespace Basket.WebService.Controllers.V1
 {
@@ -34,7 +34,7 @@ namespace Basket.WebService.Controllers.V1
         private Guid UserId => User.GetUserId();
 
         /// <summary>
-        /// Gets or creates basket.
+        /// Gets or creates a basket.
         /// </summary>
         /// <returns>Basket.</returns>
         [HttpPost("get")]
@@ -46,36 +46,22 @@ namespace Basket.WebService.Controllers.V1
         }
 
         /// <summary>
-        /// Updates basket item.
+        /// Updates the basket.
         /// </summary>
-        /// <param name="model">Model.</param>
+        /// <param name="dto">Dto.</param>
         /// <returns>Basket.</returns>
         [HttpPost("update")]
         [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddOrUpdateBasketItem(Dto.AddOrUpdateBasketItemDto model)
+        public async Task<IActionResult> UpdateBasket(Dto.UpdateBasketDto dto)
         {
-            var dto = new AddOrUpdateBasketItemDto(
-                UserId, model.CatalogItemId, model.Quantity);
-            var basket = await _basketsService.AddOrUpdateBasketItem(dto);
+            var basketItems = dto.Items.Adapt<BasketItem[]>();
+            var updateBasketDto = new UpdateBasketDto(UserId, basketItems);
+            var basket = await _basketsService.UpdateBasket(updateBasketDto);
             return this.FromResult(basket);
         }
 
         /// <summary>
-        /// Removes item from basket.
-        /// </summary>
-        /// <param name="itemId">Item id.</param>
-        /// <returns>Basket.</returns>
-        [HttpPost("remove/{itemId}")]
-        [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> RemoveItemFromBasket(Guid itemId)
-        {
-            var dto = new RemoveItemFromBasketDto(UserId, itemId);
-            var basket = await _basketsService.RemoveItemFromBasket(dto);
-            return this.FromResult(basket);
-        }
-
-        /// <summary>
-        /// Clears basket.
+        /// Clears the basket.
         /// </summary>
         /// <returns>Asynchronous operation.</returns>
         [HttpPost("clear")]

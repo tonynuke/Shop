@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using ApiGateway.WebService.Dto;
 using Basket.Client.V1;
 using Catalog.Client.V1;
 using Microsoft.AspNetCore.Http;
@@ -34,39 +35,28 @@ namespace ApiGateway.WebService.Controllers.V1
         /// </summary>
         /// <returns>Basket.</returns>
         [HttpPost("get")]
-        [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserBasketDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrCreateBasket()
         {
             var basket = await _basketClient.GetOrCreateBasketAsync();
-            return Ok(basket);
+            var result = await MapToUserBasket(basket);
+
+            return Ok(result);
         }
 
         /// <summary>
-        /// Updates the basket item.
+        /// Updates the basket.
         /// </summary>
         /// <param name="dto">Dto.</param>
         /// <returns>Basket.</returns>
         [HttpPost("update")]
-        [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddOrUpdateBasketItem(AddOrUpdateBasketItemDto dto)
+        [ProducesResponseType(typeof(UserBasketDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateBasket(UpdateBasketDto dto)
         {
-            // TODO: use cache
-            var basket = await _basketClient.AddOrUpdateBasketItemAsync(dto);
-            var item = _catalogClient.FindItemByIdAsync(dto.CatalogItemId);
-            return Ok(basket);
-        }
+            var basket = await _basketClient.UpdateBasketAsync(dto);
+            var result = await MapToUserBasket(basket);
 
-        /// <summary>
-        /// Removes the item from the basket.
-        /// </summary>
-        /// <param name="itemId">Item id.</param>
-        /// <returns>Basket.</returns>
-        [HttpPost("remove/{itemId}")]
-        [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> RemoveItemFromBasket(Guid itemId)
-        {
-            var basket = await _basketClient.RemoveItemFromBasketAsync(itemId);
-            return Ok(basket);
+            return Ok(result);
         }
 
         /// <summary>
@@ -79,6 +69,28 @@ namespace ApiGateway.WebService.Controllers.V1
         {
             await _basketClient.ClearBasketAsync();
             return NoContent();
+        }
+
+        private async Task<UserBasketDto> MapToUserBasket(BasketDto basket)
+        {
+            var basketItemsDictionary = basket.Items.ToDictionary(item => item.Id);
+            var catalogItems = await _catalogClient.FindItemsByIdsAsync(basketItemsDictionary.Keys);
+            var items = catalogItems
+                .Select(item => new UserBasketItemDto
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Quantity = basketItemsDictionary[item.Id].Quantity,
+                    Price = item.Price,
+                })
+                .ToList();
+
+            return new UserBasketDto
+            {
+                Id = basket.Id,
+                Items = items,
+                Price = items.Sum(item => item.Price)
+            };
         }
     }
 }

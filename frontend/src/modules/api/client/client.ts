@@ -24,7 +24,7 @@ export class Client {
      * Gets or creates basket.
      * @return Success
      */
-    getOrCreateBasket(  cancelToken?: CancelToken | undefined): Promise<BasketDto> {
+    getOrCreateBasket(  cancelToken?: CancelToken | undefined): Promise<UserBasketDto> {
         let url_ = this.baseUrl + "/api/v1/baskets/get";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -48,7 +48,7 @@ export class Client {
         });
     }
 
-    protected processGetOrCreateBasket(response: AxiosResponse): Promise<BasketDto> {
+    protected processGetOrCreateBasket(response: AxiosResponse): Promise<UserBasketDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -62,7 +62,7 @@ export class Client {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = BasketDto.fromJS(resultData200);
+            result200 = UserBasketDto.fromJS(resultData200);
             return result200;
         } else if (status === 400) {
             const _responseText = response.data;
@@ -80,15 +80,15 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<BasketDto>(<any>null);
+        return Promise.resolve<UserBasketDto>(<any>null);
     }
 
     /**
-     * Updates the basket item.
+     * Updates the basket.
      * @param body (optional) Dto.
      * @return Success
      */
-    addOrUpdateBasketItem(body: AddOrUpdateBasketItemDto | undefined , cancelToken?: CancelToken | undefined): Promise<BasketDto> {
+    updateBasket(body: UpdateBasketDto | undefined , cancelToken?: CancelToken | undefined): Promise<UserBasketDto> {
         let url_ = this.baseUrl + "/api/v1/baskets/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -112,11 +112,11 @@ export class Client {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processAddOrUpdateBasketItem(_response);
+            return this.processUpdateBasket(_response);
         });
     }
 
-    protected processAddOrUpdateBasketItem(response: AxiosResponse): Promise<BasketDto> {
+    protected processUpdateBasket(response: AxiosResponse): Promise<UserBasketDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -130,7 +130,7 @@ export class Client {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = BasketDto.fromJS(resultData200);
+            result200 = UserBasketDto.fromJS(resultData200);
             return result200;
         } else if (status === 400) {
             const _responseText = response.data;
@@ -148,74 +148,7 @@ export class Client {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<BasketDto>(<any>null);
-    }
-
-    /**
-     * Removes the item from the basket.
-     * @param itemId Item id.
-     * @return Success
-     */
-    removeItemFromBasket(itemId: string , cancelToken?: CancelToken | undefined): Promise<BasketDto> {
-        let url_ = this.baseUrl + "/api/v1/baskets/remove/{itemId}";
-        if (itemId === undefined || itemId === null)
-            throw new Error("The parameter 'itemId' must be defined.");
-        url_ = url_.replace("{itemId}", encodeURIComponent("" + itemId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
-            method: "POST",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processRemoveItemFromBasket(_response);
-        });
-    }
-
-    protected processRemoveItemFromBasket(response: AxiosResponse): Promise<BasketDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = BasketDto.fromJS(resultData200);
-            return result200;
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-        } else if (status === 409) {
-            const _responseText = response.data;
-            let result409: any = null;
-            let resultData409  = _responseText;
-            result409 = ProblemDetails.fromJS(resultData409);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result409);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<BasketDto>(<any>null);
+        return Promise.resolve<UserBasketDto>(<any>null);
     }
 
     /**
@@ -278,98 +211,6 @@ export class Client {
     }
 }
 
-export class AddOrUpdateBasketItemDto implements IAddOrUpdateBasketItemDto {
-    catalogItemId?: string;
-    quantity?: number;
-
-    constructor(data?: IAddOrUpdateBasketItemDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.catalogItemId = _data["catalogItemId"];
-            this.quantity = _data["quantity"];
-        }
-    }
-
-    static fromJS(data: any): AddOrUpdateBasketItemDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new AddOrUpdateBasketItemDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["catalogItemId"] = this.catalogItemId;
-        data["quantity"] = this.quantity;
-        return data; 
-    }
-}
-
-export interface IAddOrUpdateBasketItemDto {
-    catalogItemId?: string;
-    quantity?: number;
-}
-
-export class BasketDto implements IBasketDto {
-    id?: string;
-    items?: BasketItemDto[] | undefined;
-    price?: number;
-
-    constructor(data?: IBasketDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(BasketItemDto.fromJS(item));
-            }
-            this.price = _data["price"];
-        }
-    }
-
-    static fromJS(data: any): BasketDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new BasketDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        data["price"] = this.price;
-        return data; 
-    }
-}
-
-export interface IBasketDto {
-    id?: string;
-    items?: BasketItemDto[] | undefined;
-    price?: number;
-}
-
 export class BasketItemDto implements IBasketItemDto {
     id?: string;
     quantity?: number;
@@ -408,6 +249,150 @@ export class BasketItemDto implements IBasketItemDto {
 export interface IBasketItemDto {
     id?: string;
     quantity?: number;
+}
+
+export class UpdateBasketDto implements IUpdateBasketDto {
+    items?: BasketItemDto[] | undefined;
+
+    constructor(data?: IUpdateBasketDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(BasketItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UpdateBasketDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateBasketDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IUpdateBasketDto {
+    items?: BasketItemDto[] | undefined;
+}
+
+export class UserBasketDto implements IUserBasketDto {
+    id?: string;
+    items?: UserBasketItemDto[] | undefined;
+    price?: number;
+
+    constructor(data?: IUserBasketDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(UserBasketItemDto.fromJS(item));
+            }
+            this.price = _data["price"];
+        }
+    }
+
+    static fromJS(data: any): UserBasketDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserBasketDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["price"] = this.price;
+        return data; 
+    }
+}
+
+export interface IUserBasketDto {
+    id?: string;
+    items?: UserBasketItemDto[] | undefined;
+    price?: number;
+}
+
+export class UserBasketItemDto implements IUserBasketItemDto {
+    id?: string;
+    name?: string | undefined;
+    quantity?: number;
+    price?: number;
+
+    constructor(data?: IUserBasketItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.quantity = _data["quantity"];
+            this.price = _data["price"];
+        }
+    }
+
+    static fromJS(data: any): UserBasketItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserBasketItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["quantity"] = this.quantity;
+        data["price"] = this.price;
+        return data; 
+    }
+}
+
+export interface IUserBasketItemDto {
+    id?: string;
+    name?: string | undefined;
+    quantity?: number;
+    price?: number;
 }
 
 export class ApiException extends Error {

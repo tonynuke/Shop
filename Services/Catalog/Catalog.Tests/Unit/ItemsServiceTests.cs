@@ -6,8 +6,6 @@ using Catalog.Services.Brands;
 using Catalog.Services.Items;
 using Catalog.Services.Items.Dto;
 using FluentAssertions;
-using Moq;
-using Nest;
 using TestUtils;
 using Xunit;
 using Name = Catalog.Domain.Name;
@@ -26,7 +24,6 @@ namespace Catalog.Tests.Unit
             catalogContext.BrandsMock.SetupCursorResponse(brand);
 
             var service = new CatalogItemsService(
-                Mock.Of<IElasticClient>(),
                 new BrandsService(catalogContext),
                 catalogContext);
 

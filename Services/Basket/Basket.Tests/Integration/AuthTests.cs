@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Basket.Client.V1;
 using Basket.WebService;
-using Catalog.Client.V1;
 using Common.Configuration;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +17,6 @@ namespace Basket.Tests.Integration
     public class AuthTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly AccessTokenGenerator _accessTokenGenerator;
-        private readonly Guid _userId = Guid.NewGuid();
         private readonly IBasketClient _basketClient;
 
         public AuthTests(WebApplicationFactory<Startup> factory)
@@ -39,8 +37,6 @@ namespace Basket.Tests.Integration
                 .Build();
 
             var identityConfiguration = configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
-
-            // TODO: настроить конфигурацию
             _accessTokenGenerator = new AccessTokenGenerator(identityConfiguration);
         }
 

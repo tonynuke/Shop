@@ -1,5 +1,4 @@
 ﻿using Basket.WebService;
-using TestUtils;
 using TestUtils.Component;
 using Xunit;
 

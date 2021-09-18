@@ -1,4 +1,5 @@
 using System;
+using Catalog.Indexing;
 using Catalog.Persistence;
 using Catalog.Services.Brands;
 using Catalog.Services.Items;
@@ -6,6 +7,7 @@ using Common.AspNetCore;
 using Common.AspNetCore.Configuration;
 using Common.Configuration;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -31,14 +33,30 @@ namespace Catalog.WebService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureServicesBase(Configuration);
-            AddElasticSearch(services, Configuration);
             BsonSerializer.RegisterSerializer(new NameSerializer());
+
+            services.ConfigureServicesBase(Configuration);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolicies.Catalog, policy =>
+                {
+                    policy.RequireAssertion(Handler);
+                });
+            });
+
+            AddElasticSearch(services, Configuration);
             services.ConfigureMongoDb(Configuration);
             services.AddMongoDbContext<CatalogContext>();
+            services.AddSingleton<IIndexingService, IndexingService>();
             services.AddSingleton<IBrandsService, BrandsService>();
             services.AddSingleton<ICatalogItemsService, CatalogItemsService>();
             TypeAdapterConfig.GlobalSettings.Scan(typeof(Mapper).Assembly);
+        }
+
+        private bool Handler(AuthorizationHandlerContext arg)
+        {
+            return
+                arg.User.HasClaim(AuthorizationPolicies.Catalog, "all");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,14 +76,14 @@ namespace Catalog.WebService
             var uri = new Uri(config.Url);
             var settings = new ConnectionSettings(uri)
                 .DefaultIndex(config.IndexName)
-                .DefaultMappingFor<Indexing.Item>(m => m);
+                .DefaultMappingFor<Item>(m => m);
 
             var client = new ElasticClient(settings);
             services.AddSingleton<IElasticClient>(client);
 
             var createIndexResponse = client.Indices.Create(
                 config.IndexName,
-                index => index.Map<Indexing.Item>(x => x.AutoMap()));
+                index => index.Map<Item>(x => x.AutoMap()));
         }
     }
 }

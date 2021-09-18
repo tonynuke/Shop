@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoFixture;
 using Catalog.Client.V1;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using TestUtils;
 using TestUtils.Component;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Catalog.Tests.Component
 {
@@ -22,13 +24,16 @@ namespace Catalog.Tests.Component
         private readonly Guid _userId = Guid.NewGuid();
         private readonly StandFixture<Startup> _stand;
 
-        public BrandsTests(StandFixture<Startup> stand)
+        public BrandsTests(StandFixture<Startup> stand, ITestOutputHelper testOutputHelper)
         {
             _stand = stand;
 
             var configuration = _stand.Host.Configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
             var tokenGenerator = new AccessTokenGenerator(configuration);
-            var token = tokenGenerator.GetJwtTokenByScopes(_userId);
+            var token = tokenGenerator.GetJwtTokenByClaims(_userId, new[]
+            {
+                new Claim(AuthorizationPolicies.Catalog, "all"),
+            });
 
             var httpClient = stand.Host.CreateClient();
             var authorization = new AuthenticationHeaderValue(

@@ -1,5 +1,4 @@
 ﻿using Catalog.WebService;
-using TestUtils;
 using TestUtils.Component;
 using Xunit;
 

@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Basket.Domain;
+using Mapster;
 
 namespace Basket.WebService
 {
@@ -14,7 +15,10 @@ namespace Basket.WebService
                 .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest.Items, src => src.Items);
 
-            config.NewConfig<Domain.BasketItem, Dto.BasketItemDto>();
+            config.NewConfig<BasketItem, Dto.BasketItemDto>();
+
+            config.NewConfig<Dto.BasketItemDto, BasketItem>()
+                .ConstructUsing(dto => BasketItem.Create(dto.Id, dto.Quantity).Value);
         }
     }
 }

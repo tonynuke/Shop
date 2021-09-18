@@ -16,10 +16,5 @@ namespace Basket.WebService.Dto
         /// Gets items.
         /// </summary>
         public BasketItemDto[] Items { get; init; } = Array.Empty<BasketItemDto>();
-
-        /// <summary>
-        /// Gets price.
-        /// </summary>
-        public decimal Price { get; init; }
     }
 }

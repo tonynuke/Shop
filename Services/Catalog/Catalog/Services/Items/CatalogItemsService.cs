@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Catalog.Domain;
+using Catalog.Messages.Events;
 using Catalog.Persistence;
 using Catalog.Services.Brands;
 using Catalog.Services.Items.Dto;
@@ -19,22 +21,18 @@ namespace Catalog.Services.Items
     /// </summary>
     public class CatalogItemsService : ICatalogItemsService
     {
-        private readonly IElasticClient _elasticClient;
         private readonly IBrandsService _brandsService;
         private readonly CatalogContext _catalogContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CatalogItemsService"/> class.
         /// </summary>
-        /// <param name="elasticClient"></param>
-        /// <param name="brandsService"></param>
-        /// <param name="catalogContext"></param>
+        /// <param name="brandsService">Brands service.</param>
+        /// <param name="catalogContext">Context.</param>
         public CatalogItemsService(
-            IElasticClient elasticClient,
             IBrandsService brandsService,
             CatalogContext catalogContext)
         {
-            _elasticClient = elasticClient;
             _brandsService = brandsService;
             _catalogContext = catalogContext;
         }
@@ -46,15 +44,7 @@ namespace Catalog.Services.Items
                 .ToResult(ErrorCodes.NotFound)
                 .Map(brand => brand.CreateItem(dto.Name, dto.Description, dto.Price))
                 .Tap(InsertOne)
-                .Map(item => new Indexing.Item
-                {
-                    Id = item.Id,
-                    Name = item.Name.Value,
-                    Description = item.Description,
-                    Brand = item.Brand.Name.Value,
-                    Price = item.Price
-                })
-                .Tap(item => _elasticClient.IndexDocumentAsync(item))
+
                 .Map(item => item.Id);
 
             Task InsertOne(CatalogItem item)
@@ -91,34 +81,25 @@ namespace Catalog.Services.Items
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyCollection<Indexing.Item>> SearchItems(ItemsQueryDto dto)
-        {
-            var response = await _elasticClient.SearchAsync<Indexing.Item>(
-                selector => selector
-                    .From(dto.Page.Skip)
-                    .Size(dto.Page.Limit)
-                    .Query(q => q.MultiMatch(
-                        c => c.Query(dto.Query)
-                            .Fields(descriptor => descriptor.Fields(
-                                item => item.Name,
-                                item => item.Description,
-                                item => item.Brand)))));
-
-            return response.Documents;
-        }
-
-        /// <inheritdoc/>
         public Task<CatalogItem> FindOne(Guid id)
         {
             return _catalogContext.Items.Find(item => item.Id == id).SingleOrDefaultAsync();
         }
 
         /// <inheritdoc/>
+        public async Task<IReadOnlyCollection<CatalogItem>> FindMany(IEnumerable<Guid> ids)
+        {
+            return await _catalogContext.Items.Find(item => ids.Contains(item.Id)).ToListAsync();
+        }
+
+        /// <inheritdoc/>
         public Task DeleteOne(Guid id)
         {
-            return Task.WhenAll(
-                _catalogContext.Items.DeleteOneAsync(item => item.Id == id),
-                _elasticClient.DeleteAsync<Indexing.Item>(id));
+            return _catalogContext.ExecuteInTransaction(async () =>
+                   {
+                       await _catalogContext.Items.DeleteOneAsync(item => item.Id == id);
+                       await _catalogContext.Events.InsertOneAsync(new ItemDeleted(id));
+                   });
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoFixture;
 using Catalog.Domain;
-using Catalog.Services.Items;
 using FluentAssertions;
 using Nest;
 using Xunit;

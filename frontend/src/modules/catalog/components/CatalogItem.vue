@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { AddOrUpdateBasketItemDto } from "@/modules/basket/client/client";
+import { UpdateBasketDto, BasketItemDto } from "@/modules/api/client/client";
 import { ActionTypes } from "@/modules/basket/store/action-types";
 import { defineComponent, PropType } from "vue";
 import { ItemDto } from "../client/client";
@@ -41,11 +41,17 @@ export default defineComponent({
     const store = useStore();
 
     const addOrUpdateBasketItem = (item: ItemDto) => {
-      const model = new AddOrUpdateBasketItemDto({
-        catalogItemId: item.id,
-        quantity: 1,
-      });
-      store.dispatch(ActionTypes.UPDATE_BASKET_ITEM, model);
+      let dto = new UpdateBasketDto();
+      const oldItems = store.state.basket.items!.map(
+        (x) => new BasketItemDto({ id: x.id, quantity: x.quantity })
+      );
+      const itemInBasket = oldItems?.find((x) => x.id == item.id);
+      console.log(itemInBasket);
+      if (itemInBasket !== null) {
+        const newItem = new BasketItemDto({ id: item.id, quantity: 1 });
+        dto.items = [...oldItems, newItem];
+        store.dispatch(ActionTypes.UPDATE_BASKET, dto);
+      }
     };
 
     return {

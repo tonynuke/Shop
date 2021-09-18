@@ -1,10 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Common.AspNetCore.Logging;
 using Common.AspNetCore.Swagger;
-using Common.Configuration;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,11 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Nest;
 
 namespace Common.AspNetCore.Configuration
 {
@@ -36,9 +29,7 @@ namespace Common.AspNetCore.Configuration
         public static IServiceCollection ConfigureServicesBase(
             this IServiceCollection services, IConfiguration configuration)
         {
-            // https://stackoverflow.com/questions/62475109/asp-net-core-jwt-authentication-changes-claims-sub
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
+            services.AddCors();
             services.AddHeaderPropagation(o =>
             {
                 // propagates headers if present.
@@ -46,27 +37,8 @@ namespace Common.AspNetCore.Configuration
                 o.Headers.Add(HeaderNames.Authorization);
             });
 
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    var authConfiguration = configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
-                    var bytes = Encoding.ASCII.GetBytes(authConfiguration.Certificate);
-                    var certificate = new X509Certificate2(bytes);
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        IssuerSigningKey = new X509SecurityKey(certificate),
-
-                        // enable validation
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ValidateLifetime = false
-                    };
-                });
-            services.AddAuthorization();
+            services.ConfigureAuthentication(configuration);
+            services.ConfigureAuthorization();
 
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddProblemDetails(ProblemDetails.ConfigureProblemDetails);
@@ -79,20 +51,8 @@ namespace Common.AspNetCore.Configuration
                     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 });
 
-            services.AddApiVersioning(options =>
-            {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-            });
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-
             services.AddHealthChecks();
+            ConfigureApiVersioning(services);
             ConfigureSwaggerGen(services);
 
             return services;
@@ -140,6 +100,22 @@ namespace Common.AspNetCore.Configuration
             {
                 endpoints.MapControllers().RequireAuthorization();
                 endpoints.MapHealthChecks("/health");
+            });
+        }
+
+        private static void ConfigureApiVersioning(IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
             });
         }
 

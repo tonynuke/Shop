@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Catalog.Indexing;
 using Catalog.Services.Items;
 using Catalog.WebService.Dto.Items;
 using Common.Api;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CreateItem = Catalog.Services.Items.Dto.CreateItemDto;
+using ItemsQueryDto = Catalog.WebService.Dto.Items.ItemsQueryDto;
 using Name = Catalog.Domain.Name;
 
 namespace Catalog.WebService.Controllers.V1
@@ -24,14 +26,17 @@ namespace Catalog.WebService.Controllers.V1
     public class ItemsController : ControllerBase
     {
         private readonly ICatalogItemsService _itemsService;
+        private readonly IIndexingService _indexingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemsController"/> class.
         /// </summary>
         /// <param name="itemsService">Items service.</param>
-        public ItemsController(ICatalogItemsService itemsService)
+        /// <param name="indexingService">Indexing service.</param>
+        public ItemsController(ICatalogItemsService itemsService, IIndexingService indexingService)
         {
             _itemsService = itemsService;
+            _indexingService = indexingService;
         }
 
         /// <summary>
@@ -39,6 +44,7 @@ namespace Catalog.WebService.Controllers.V1
         /// </summary>
         /// <param name="model">Model.</param>
         /// <returns>Item id.</returns>
+        [Authorize(AuthorizationPolicies.Catalog)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateItem(CreateItemDto model)
@@ -70,6 +76,19 @@ namespace Catalog.WebService.Controllers.V1
         }
 
         /// <summary>
+        /// Finds items by ids.
+        /// </summary>
+        /// <param name="ids">Items ids.</param>
+        /// <returns>Item.</returns>
+        [HttpPost("get-by-ids")]
+        [ProducesResponseType(typeof(ItemDto[]), StatusCodes.Status200OK)]
+        public async Task<IReadOnlyCollection<ItemDto>> FindItemsByIds([FromBody] IReadOnlyCollection<Guid> ids)
+        {
+            var items = await _itemsService.FindMany(ids);
+            return items.Adapt<ItemDto[]>();
+        }
+
+        /// <summary>
         /// Deletes item.
         /// </summary>
         /// <param name="id">Item id.</param>
@@ -93,8 +112,8 @@ namespace Catalog.WebService.Controllers.V1
         public async Task<IActionResult> SearchItems(ItemsQueryDto model)
         {
             var page = Page.Create(model.Page.Skip, model.Page.Limit).Value;
-            var searchModel = new Services.Items.Dto.ItemsQueryDto(model.Query, page);
-            var items = await _itemsService.SearchItems(searchModel);
+            var searchModel = new Indexing.ItemsQueryDto(model.Query, page);
+            var items = await _indexingService.SearchItems(searchModel);
 
             return Ok(items);
         }

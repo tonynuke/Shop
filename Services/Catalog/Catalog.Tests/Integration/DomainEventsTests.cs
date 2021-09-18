@@ -3,7 +3,6 @@ using AutoFixture;
 using Catalog.Domain;
 using Catalog.Persistence;
 using DataAccess;
-using TestUtils;
 using TestUtils.Integration;
 using Xunit;
 using Xunit.Abstractions;

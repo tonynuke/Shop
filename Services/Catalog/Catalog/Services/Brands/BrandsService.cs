@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.Domain;
 using Catalog.Persistence;
@@ -19,6 +18,10 @@ namespace Catalog.Services.Brands
     {
         private readonly CatalogContext _catalogContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrandsService"/> class.
+        /// </summary>
+        /// <param name="catalogContext">Context.</param>
         public BrandsService(CatalogContext catalogContext)
         {
             _catalogContext = catalogContext;
@@ -38,7 +41,9 @@ namespace Catalog.Services.Brands
             return FindBrand(dto.BrandId)
                 .ToResult(ErrorCodes.NotFound)
                 .Tap(brand => brand.Name = dto.BrandName)
-                .OnSuccessTry(brand => _catalogContext.Brands.ReplaceOneOcc(brand), BrandErrorHandler);
+                .OnSuccessTry(
+                    brand => _catalogContext.Brands.ReplaceOneOcc(brand),
+                    BrandErrorHandler);
         }
 
         /// <inheritdoc/>

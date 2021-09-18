@@ -18,7 +18,7 @@
         "tags": [
           "Baskets"
         ],
-        "summary": "Gets or creates basket.",
+        "summary": "Gets or creates a basket.",
         "operationId": "GetOrCreateBasket",
         "responses": {
           "200": {
@@ -69,91 +69,28 @@
         "tags": [
           "Baskets"
         ],
-        "summary": "Updates basket item.",
-        "operationId": "AddOrUpdateBasketItem",
+        "summary": "Updates the basket.",
+        "operationId": "UpdateBasket",
         "requestBody": {
-          "description": "Model.",
+          "description": "Dto.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddOrUpdateBasketItemDto"
+                "$ref": "#/components/schemas/UpdateBasketDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddOrUpdateBasketItemDto"
+                "$ref": "#/components/schemas/UpdateBasketDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddOrUpdateBasketItemDto"
+                "$ref": "#/components/schemas/UpdateBasketDto"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BasketDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BasketDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BasketDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/baskets/remove/{itemId}": {
-      "post": {
-        "tags": [
-          "Baskets"
-        ],
-        "summary": "Removes item from basket.",
-        "operationId": "RemoveItemFromBasket",
-        "parameters": [
-          {
-            "name": "itemId",
-            "in": "path",
-            "description": "Item id.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -203,7 +140,7 @@
         "tags": [
           "Baskets"
         ],
-        "summary": "Clears basket.",
+        "summary": "Clears the basket.",
         "operationId": "ClearBasket",
         "responses": {
           "204": {
@@ -235,23 +172,6 @@
   },
   "components": {
     "schemas": {
-      "AddOrUpdateBasketItemDto": {
-        "type": "object",
-        "properties": {
-          "catalogItemId": {
-            "type": "string",
-            "description": "Gets catalog item id.",
-            "format": "uuid"
-          },
-          "quantity": {
-            "type": "integer",
-            "description": "Gets quantity.",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Dto to add or update basket item."
-      },
       "BasketDto": {
         "type": "object",
         "properties": {
@@ -267,11 +187,6 @@
             },
             "description": "Gets items.",
             "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "description": "Gets price.",
-            "format": "decimal"
           }
         },
         "additionalProperties": false,
@@ -320,6 +235,21 @@
           }
         },
         "additionalProperties": { }
+      },
+      "UpdateBasketDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BasketItemDto"
+            },
+            "description": "Gets items.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Dto to add or update basket item."
       }
     },
     "securitySchemes": {

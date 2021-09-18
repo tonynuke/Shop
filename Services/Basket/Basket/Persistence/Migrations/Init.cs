@@ -13,6 +13,7 @@ namespace Basket.Persistence.Migrations
 
         public override string Id => "Init";
 
+        /// <inheritdoc/>
         public override Task Up()
         {
             var index = new CreateIndexModel<Domain.Basket>(
@@ -26,6 +27,7 @@ namespace Basket.Persistence.Migrations
             return Context.Baskets.Indexes.CreateOneAsync(index);
         }
 
+        /// <inheritdoc/>
         public override Task Down()
         {
             return Context.Baskets.Indexes.DropOneAsync("IX_ItemId");

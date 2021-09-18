@@ -1,6 +1,8 @@
-﻿using Identity.Domain;
+﻿using System.IO;
+using Identity.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Identity.Persistence
 {
