@@ -793,13 +793,11 @@
             "items": {
               "$ref": "#/components/schemas/Brand"
             },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "totalRecords": {
             "type": "integer",
-            "format": "int64",
-            "readOnly": true
+            "format": "int64"
           }
         },
         "additionalProperties": false

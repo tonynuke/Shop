@@ -20,13 +20,13 @@ namespace Basket.WebService.Controllers.V1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class BasketsController : ControllerBase
     {
-        private readonly IBasketsService _basketsService;
+        private readonly BasketsService _basketsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasketsController"/> class.
         /// </summary>
         /// <param name="basketsService">Baskets service.</param>
-        public BasketsController(IBasketsService basketsService)
+        public BasketsController(BasketsService basketsService)
         {
             _basketsService = basketsService;
         }

@@ -1,9 +1,12 @@
-﻿namespace Notifications.Domain
+﻿using System.Collections.Generic;
+using CSharpFunctionalExtensions;
+
+namespace Notifications.Domain
 {
     /// <summary>
     /// Notification.
     /// </summary>
-    public class Notification
+    public class Notification : ValueObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Notification"/> class.
@@ -24,6 +27,13 @@
         /// <summary>
         /// Gets body.
         /// </summary>
-        public string Body { get;  }
+        public string Body { get; }
+
+        /// <inheritdoc/>
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Title;
+            yield return Body;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Catalog.Indexing
     /// <summary>
     /// Indexing service.
     /// </summary>
-    public class IndexingService : IIndexingService
+    public class IndexingService
     {
         private readonly CatalogContext _context;
         private readonly IElasticClient _elasticClient;
@@ -27,7 +27,11 @@ namespace Catalog.Indexing
             _logger = logger;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Indexes the item.
+        /// </summary>
+        /// <param name="itemId">Item id.</param>
+        /// <returns>Asynchronous operation.</returns>
         public async Task Index(Guid itemId)
         {
             var item = await _context.Items
@@ -52,13 +56,21 @@ namespace Catalog.Indexing
             await _elasticClient.IndexDocumentAsync(indexItem);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Removes item by it's id.
+        /// </summary>
+        /// <param name="itemId">Id.</param>
+        /// <returns>Asynchronous operation.</returns>
         public Task RemoveFromIndex(Guid itemId)
         {
             return _elasticClient.DeleteAsync<Item>(itemId);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Searches items.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Items.</returns>
         public async Task<IReadOnlyCollection<Item>> SearchItems(ItemsQueryDto dto)
         {
             var response = await _elasticClient.SearchAsync<Item>(

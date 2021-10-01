@@ -2,26 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Domain;
+using Catalog.Brands;
+using Catalog.Items.Dto;
 using Catalog.Messages.Events;
 using Catalog.Persistence;
-using Catalog.Services.Brands;
-using Catalog.Services.Items.Dto;
 using Common.Api.Errors;
 using CSharpFunctionalExtensions;
 using DataAccess;
 using MongoDB.Driver;
-using Nest;
 using Result = CSharpFunctionalExtensions.Result;
 
-namespace Catalog.Services.Items
+namespace Catalog.Items
 {
     /// <summary>
     /// Items service.
     /// </summary>
-    public class CatalogItemsService : ICatalogItemsService
+    public class CatalogItemsService
     {
-        private readonly IBrandsService _brandsService;
+        private readonly BrandsService _brandsService;
         private readonly CatalogContext _catalogContext;
 
         /// <summary>
@@ -30,14 +28,18 @@ namespace Catalog.Services.Items
         /// <param name="brandsService">Brands service.</param>
         /// <param name="catalogContext">Context.</param>
         public CatalogItemsService(
-            IBrandsService brandsService,
+            BrandsService brandsService,
             CatalogContext catalogContext)
         {
             _brandsService = brandsService;
             _catalogContext = catalogContext;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Creates an item.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Item id.</returns>
         public Task<Result<Guid>> Create(CreateItemDto dto)
         {
             return _brandsService.FindBrand(dto.BrandId)
@@ -57,7 +59,11 @@ namespace Catalog.Services.Items
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Updates the item.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Result.</returns>
         public async Task<Result> UpdateOne(UpdateItemDto dto)
         {
             Maybe<CatalogItem> itemOtNothing = await _catalogContext.Items
@@ -80,19 +86,31 @@ namespace Catalog.Services.Items
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Finds the item.
+        /// </summary>
+        /// <param name="id">Item id.</param>
+        /// <returns>Item.</returns>
         public Task<CatalogItem> FindOne(Guid id)
         {
             return _catalogContext.Items.Find(item => item.Id == id).SingleOrDefaultAsync();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Finds items.
+        /// </summary>
+        /// <param name="ids">Items ids.</param>
+        /// <returns>Items.</returns>
         public async Task<IReadOnlyCollection<CatalogItem>> FindMany(IEnumerable<Guid> ids)
         {
             return await _catalogContext.Items.Find(item => ids.Contains(item.Id)).ToListAsync();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Deletes the item.
+        /// </summary>
+        /// <param name="id">Item id.</param>
+        /// <returns>Asynchronous operation.</returns>
         public Task DeleteOne(Guid id)
         {
             return _catalogContext.ExecuteInTransaction(async () =>

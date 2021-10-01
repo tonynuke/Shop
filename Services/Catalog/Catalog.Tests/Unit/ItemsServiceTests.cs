@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoFixture;
-using Catalog.Domain;
-using Catalog.Services.Brands;
-using Catalog.Services.Items;
-using Catalog.Services.Items.Dto;
+using Catalog.Brands;
+using Catalog.Items;
+using Catalog.Items.Dto;
 using FluentAssertions;
 using TestUtils;
 using Xunit;
-using Name = Catalog.Domain.Name;
+using Name = Catalog.Items.Name;
 
 namespace Catalog.Tests.Unit
 {

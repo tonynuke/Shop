@@ -1,7 +1,6 @@
 ﻿using System;
-using Catalog.Domain;
 
-namespace Catalog.Services.Items.Dto
+namespace Catalog.Items.Dto
 {
     /// <summary>
     /// Update item dto.

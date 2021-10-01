@@ -1,4 +1,4 @@
-﻿using Catalog.Domain;
+﻿using Catalog.Items;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoFixture;
-using Catalog.Domain;
+using Catalog.Brands;
+using Catalog.Items;
 using Catalog.Persistence;
 using DataAccess;
 using TestUtils.Integration;

@@ -1,7 +1,8 @@
-﻿using DataAccess.Entities;
+﻿using Catalog.Items;
+using DataAccess.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Catalog.Domain
+namespace Catalog.Brands
 {
     /// <summary>
     /// Brand.

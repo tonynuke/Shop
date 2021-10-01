@@ -1,8 +1,9 @@
-﻿using Catalog.Messages.Events;
+﻿using Catalog.Brands;
+using Catalog.Messages.Events;
 using DataAccess.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Catalog.Domain
+namespace Catalog.Items
 {
     /// <summary>
     /// Catalog item.

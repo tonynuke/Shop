@@ -11,7 +11,7 @@ namespace Basket.Services
     /// <summary>
     /// Baskets service.
     /// </summary>
-    public class BasketsService : IBasketsService
+    public class BasketsService
     {
         private readonly BasketContext _basketContext;
 
@@ -24,7 +24,12 @@ namespace Basket.Services
             _basketContext = basketContext;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets or creates a basket.
+        /// </summary>
+        /// <param name="buyerId">Buyer identifier.</param>
+        /// <returns>Basket id.</returns>
+        /// <remarks>If user basket is not found, then creates new one.</remarks>
         public async Task<Domain.Basket> GetOrCreateBasket(Guid buyerId)
         {
             var basket = await _basketContext.Baskets
@@ -40,7 +45,11 @@ namespace Basket.Services
             return basket;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Updates the basket.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Basket.</returns>
         public Task<Result<Domain.Basket>> UpdateBasket(UpdateBasketDto dto)
         {
             return FindBasket(dto.BuyerId)
@@ -48,7 +57,11 @@ namespace Basket.Services
                 .Tap(UpdateOne);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Clears the basket.
+        /// </summary>
+        /// <param name="buyerId">Buyer identifier.</param>
+        /// <returns>Basket.</returns>
         public Task<Result<Domain.Basket>> ClearBasket(Guid buyerId)
         {
             return FindBasket(buyerId)

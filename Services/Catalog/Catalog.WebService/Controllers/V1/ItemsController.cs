@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.Indexing;
-using Catalog.Services.Items;
+using Catalog.Items;
 using Catalog.WebService.Dto.Items;
 using Common.Api;
 using Common.Pagination;
@@ -11,9 +11,9 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CreateItem = Catalog.Services.Items.Dto.CreateItemDto;
+using CreateItem = Catalog.Items.Dto.CreateItemDto;
 using ItemsQueryDto = Catalog.WebService.Dto.Items.ItemsQueryDto;
-using Name = Catalog.Domain.Name;
+using Name = Catalog.Items.Name;
 
 namespace Catalog.WebService.Controllers.V1
 {
@@ -25,15 +25,15 @@ namespace Catalog.WebService.Controllers.V1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
-        private readonly ICatalogItemsService _itemsService;
-        private readonly IIndexingService _indexingService;
+        private readonly CatalogItemsService _itemsService;
+        private readonly IndexingService _indexingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemsController"/> class.
         /// </summary>
         /// <param name="itemsService">Items service.</param>
         /// <param name="indexingService">Indexing service.</param>
-        public ItemsController(ICatalogItemsService itemsService, IIndexingService indexingService)
+        public ItemsController(CatalogItemsService itemsService, IndexingService indexingService)
         {
             _itemsService = itemsService;
             _indexingService = indexingService;

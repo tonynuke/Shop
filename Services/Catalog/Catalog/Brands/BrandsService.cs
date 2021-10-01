@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Catalog.Domain;
+using Catalog.Brands.Dto;
 using Catalog.Persistence;
-using Catalog.Services.Brands.Dto;
 using Common.Api.Errors;
 using Common.Pagination;
 using CSharpFunctionalExtensions;
 using DataAccess;
 using MongoDB.Driver;
 
-namespace Catalog.Services.Brands
+namespace Catalog.Brands
 {
     /// <summary>
     /// Brands service.
     /// </summary>
-    public class BrandsService : IBrandsService
+    public class BrandsService
     {
         private readonly CatalogContext _catalogContext;
 
@@ -27,7 +26,11 @@ namespace Catalog.Services.Brands
             _catalogContext = catalogContext;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Creates brand.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Created brand id.</returns>
         public Task<Result<Guid>> CreateBrand(CreateBrand dto)
         {
             var brand = new Brand(dto.Name, dto.Description);
@@ -35,7 +38,11 @@ namespace Catalog.Services.Brands
                 .Map(() => brand.Id);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Updates the brand.
+        /// </summary>
+        /// <param name="dto">Dto.</param>
+        /// <returns>Asynchronous operation.</returns>
         public Task<Result> UpdateBrand(UpdateBrand dto)
         {
             return FindBrand(dto.BrandId)
@@ -46,13 +53,21 @@ namespace Catalog.Services.Brands
                     BrandErrorHandler);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Deletes brand.
+        /// </summary>
+        /// <param name="id">Id.</param>
+        /// <returns>Asynchronous operation.</returns>
         public Task DeleteBrand(Guid id)
         {
             return _catalogContext.Brands.DeleteOneAsync(brand => brand.Id == id);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Finds brand.
+        /// </summary>
+        /// <param name="id">Id.</param>
+        /// <returns>Brand.</returns>
         public async Task<Maybe<Brand>> FindBrand(Guid id)
         {
             var brandOrNothing = await _catalogContext.Brands
@@ -61,7 +76,11 @@ namespace Catalog.Services.Brands
             return Maybe<Brand>.From(brandOrNothing);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets brands page.
+        /// </summary>
+        /// <param name="page">Page.</param>
+        /// <returns>Brands page.</returns>
         public async Task<PageContent<Brand>> GetBrandsPage(Page page)
         {
             var count = await _catalogContext.Brands.EstimatedDocumentCountAsync();

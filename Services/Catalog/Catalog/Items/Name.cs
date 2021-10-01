@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CSharpFunctionalExtensions;
 
-namespace Catalog.Domain
+namespace Catalog.Items
 {
     /// <summary>
     /// Name.

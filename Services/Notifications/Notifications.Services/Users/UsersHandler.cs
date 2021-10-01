@@ -79,10 +79,9 @@ namespace Notifications.Services.Users
         /// <inheritdoc/>
         public async Task<Maybe<User>> Handle(FindUserByIdQuery request, CancellationToken cancellationToken)
         {
-            Maybe<User> user = await _notificationsContext.Users
+            return await _notificationsContext.Users
                 .Find(u => u.Id == request.UserId)
                 .SingleOrDefaultAsync(cancellationToken);
-            return user;
         }
 
         /// <inheritdoc/>

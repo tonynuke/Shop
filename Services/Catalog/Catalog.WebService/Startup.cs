@@ -1,8 +1,8 @@
 using System;
+using Catalog.Brands;
 using Catalog.Indexing;
+using Catalog.Items;
 using Catalog.Persistence;
-using Catalog.Services.Brands;
-using Catalog.Services.Items;
 using Common.AspNetCore;
 using Common.AspNetCore.Configuration;
 using Common.Configuration;
@@ -47,9 +47,9 @@ namespace Catalog.WebService
             AddElasticSearch(services, Configuration);
             services.ConfigureMongoDb(Configuration);
             services.AddMongoDbContext<CatalogContext>();
-            services.AddSingleton<IIndexingService, IndexingService>();
-            services.AddSingleton<IBrandsService, BrandsService>();
-            services.AddSingleton<ICatalogItemsService, CatalogItemsService>();
+            services.AddSingleton<IndexingService>();
+            services.AddSingleton<BrandsService>();
+            services.AddSingleton<CatalogItemsService>();
             TypeAdapterConfig.GlobalSettings.Scan(typeof(Mapper).Assembly);
         }
 

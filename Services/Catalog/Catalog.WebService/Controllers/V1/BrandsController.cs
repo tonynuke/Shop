@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Catalog.Domain;
-using Catalog.Services.Brands;
-using Catalog.Services.Brands.Dto;
+using Catalog.Brands;
+using Catalog.Brands.Dto;
+using Catalog.Items;
 using Catalog.WebService.Dto.Brands;
 using Common.Api;
 using Common.Pagination;
@@ -23,13 +23,13 @@ namespace Catalog.WebService.Controllers.V1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class BrandsController : ControllerBase
     {
-        private readonly IBrandsService _brandsService;
+        private readonly BrandsService _brandsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrandsController"/> class.
         /// </summary>
         /// <param name="brandsService">Brands service.</param>
-        public BrandsController(IBrandsService brandsService)
+        public BrandsController(BrandsService brandsService)
         {
             _brandsService = brandsService;
         }

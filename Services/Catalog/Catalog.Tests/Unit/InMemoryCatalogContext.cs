@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Catalog.Domain;
+using Catalog.Brands;
+using Catalog.Items;
 using Catalog.Persistence;
 using DataAccess.Entities;
 using Domain;

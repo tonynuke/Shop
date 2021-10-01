@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Catalog.Domain;
+using Catalog.Items;
 
 namespace Catalog.WebService.Validation
 {

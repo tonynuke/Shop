@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoFixture;
-using Catalog.Domain;
+using Catalog.Brands;
+using Catalog.Items;
 using FluentAssertions;
 using Nest;
 using Xunit;
 using Xunit.Abstractions;
-using Name = Catalog.Domain.Name;
+using Name = Catalog.Items.Name;
 
 namespace Catalog.Tests.Integration
 {

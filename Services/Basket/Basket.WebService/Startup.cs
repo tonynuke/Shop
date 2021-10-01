@@ -26,7 +26,7 @@ namespace Basket.WebService
             services.ConfigureServicesBase(Configuration);
             services.ConfigureMongoDb(Configuration);
             services.AddMongoDbContext<BasketContext>();
-            services.AddSingleton<IBasketsService, BasketsService>();
+            services.AddSingleton<BasketsService>();
             //var catalogEndpointUrl = Configuration.GetConnectionString("Catalog");
 
             //var crossAuthConfig = Configuration.GetSection(CrossServiceAuthConfiguration.Key);

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Catalog.Domain;
+using Catalog.Brands;
+using Catalog.Items;
 using DataAccess.Migrations;
 
 namespace Catalog.Persistence.Migrations

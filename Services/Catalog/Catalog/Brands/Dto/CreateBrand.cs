@@ -1,7 +1,7 @@
 ﻿using System;
-using Catalog.Domain;
+using Catalog.Items;
 
-namespace Catalog.Services.Brands.Dto
+namespace Catalog.Brands.Dto
 {
     /// <summary>
     /// Create brand dto.
