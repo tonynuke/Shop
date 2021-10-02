@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
@@ -8,6 +9,7 @@ namespace TestUtils
     /// <summary>
     /// Mongo collection mock extensions.
     /// </summary>
+    [Obsolete("Use integration tests instead!")]
     public static class CollectionMockExtensions
     {
         /// <summary>

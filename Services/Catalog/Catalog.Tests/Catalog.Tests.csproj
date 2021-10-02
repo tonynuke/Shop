@@ -41,4 +41,8 @@
 	  <ProjectReference Include="..\Catalog\Catalog.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Unit\" />
+	</ItemGroup>
+
 </Project>

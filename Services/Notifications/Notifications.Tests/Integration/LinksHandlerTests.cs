@@ -5,21 +5,26 @@ using Notifications.Domain;
 using Notifications.Persistence;
 using Notifications.Services.Users;
 using Notifications.Services.Users.Devices;
-using TestUtils;
+using TestUtils.Integration;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace Notifications.Tests.Unit
+namespace Notifications.Tests.Integration
 {
-    public class LinksHandlerTests
+    public class LinksHandlerTests : MongoClientFixture
     {
         private readonly IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
+
+        public LinksHandlerTests(ITestOutputHelper testOutputHelper) 
+            : base(testOutputHelper)
+        {
+        }
 
         [Fact]
         public async Task Can_link_user_to_device()
         {
-            var context = InMemoryNotificationsContext.Create();
+            var context = new NotificationsContext(Database);
             var user = _fixture.Create<User>();
-            context.UsersMock.SetupCursorResponse(user);
             _fixture.Inject<NotificationsContext>(context);
             var handler = _fixture.Create<UsersHandler>();
 
@@ -30,9 +35,8 @@ namespace Notifications.Tests.Unit
         [Fact]
         public async Task Can_unlink_user_from_device()
         {
-            var context = InMemoryNotificationsContext.Create();
+            var context = new NotificationsContext(Database);
             var user = _fixture.Create<User>();
-            context.UsersMock.SetupCursorResponse(user);
             _fixture.Inject<NotificationsContext>(context);
             var handler = _fixture.Create<UsersHandler>();
 
