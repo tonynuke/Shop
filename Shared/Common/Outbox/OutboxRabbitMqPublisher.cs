@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
-using DataAccess.Entities;
 using Domain;
 using MassTransit;
 using MongoDB.Driver;
@@ -40,8 +40,13 @@ namespace Common.Outbox
                 .Limit(BatchSize)
                 .ToListAsync();
 
-            // TODO: fix publish message contracts
-            await _publishEndpoint.PublishBatch(events);
+            // HACK: cast to actual event types to make rabbit mq routing work.
+            await Task.WhenAll(events.Select(@event =>
+            {
+                var actualEventType = @event.GetType();
+                var actualEvent = Convert.ChangeType(@event, actualEventType);
+                return _publishEndpoint.Publish(actualEvent);
+            }));
 
             var ids = events.Select(e => e.Id);
             await _dbContext.Events.DeleteManyAsync(e => ids.Contains(e.Id));

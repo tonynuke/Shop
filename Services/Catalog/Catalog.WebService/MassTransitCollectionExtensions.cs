@@ -1,7 +1,5 @@
-﻿using System;
-using Catalog.Indexing;
+﻿using Catalog.Indexing;
 using Common.Configuration;
-using CSharpFunctionalExtensions;
 using Domain;
 using GreenPipes;
 using MassTransit;

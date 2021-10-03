@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.Brands;
 using Catalog.Brands.Dto;
 using Catalog.Items;
-using Catalog.Messages.Events;
 using Catalog.WebService.Dto.Brands;
 using Common.Api;
 using Common.Pagination;
 using CSharpFunctionalExtensions;
-using Domain;
 using Mapster;
-using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
