@@ -104,7 +104,7 @@ namespace Common
             });
         }
 
-        private static void ConfigureApiVersioning(IServiceCollection services)
+        public static void ConfigureApiVersioning(IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
@@ -120,7 +120,7 @@ namespace Common
             });
         }
 
-        private static void ConfigureSwaggerGen(IServiceCollection services)
+        public static void ConfigureSwaggerGen(IServiceCollection services)
         {
             SwaggerCollectionExtensions.ConfigureSwaggerGen(services, options =>
             {

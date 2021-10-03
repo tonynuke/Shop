@@ -359,6 +359,40 @@
         }
       }
     },
+    "/api/v1/eventspublisher/process": {
+      "post": {
+        "tags": [
+          "EventsPublisher"
+        ],
+        "summary": "Publish events.",
+        "operationId": "ProcessEvents",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/items": {
       "post": {
         "tags": [

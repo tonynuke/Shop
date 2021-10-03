@@ -95,9 +95,12 @@ namespace Catalog.Tests.Component
                 Query = createItemModel.Name
             };
 
+            // HACK: call manually, don't wait for the scheduler.
+            await _client.ProcessEventsAsync();
+
             // Use retry due to indexing delays.
             var retryPolicy = Policy
-                .Handle<Exception>()
+                .Handle<TimeoutException>()
                 .WaitAndRetryAsync(10, _ => TimeSpan.FromMilliseconds(100));
 
             await retryPolicy.ExecuteAsync(async () =>
