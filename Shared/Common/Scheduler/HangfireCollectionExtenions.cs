@@ -1,5 +1,4 @@
-﻿using Common.Database;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;

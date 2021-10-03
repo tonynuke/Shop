@@ -9,7 +9,7 @@ namespace Catalog.WebService.Dto.Brands
     public record UpdateBrandDto
     {
         /// <summary>
-        /// Gets or sets name.
+        /// Gets name.
         /// </summary>
         [Required]
         [Name]

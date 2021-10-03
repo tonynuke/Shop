@@ -106,7 +106,7 @@ namespace Catalog.Tests.Component
                 if (!items.Any())
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
-                    throw new Exception();
+                    throw new TimeoutException();
                 }
 
                 items.Should().NotBeEmpty();
