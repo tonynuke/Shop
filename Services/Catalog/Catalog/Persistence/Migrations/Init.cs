@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Catalog.Brands;
 using Catalog.Items;
 using DataAccess.Migrations;
@@ -40,6 +41,7 @@ namespace Catalog.Persistence.Migrations
             };
 
             await Context.Items.InsertManyAsync(items);
+            await Context.Events.InsertManyAsync(items.SelectMany(item => item.DomainEvents));
         }
 
         /// <inheritdoc/>

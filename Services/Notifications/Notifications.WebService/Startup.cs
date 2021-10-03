@@ -1,5 +1,5 @@
-using Common.AspNetCore;
-using Common.AspNetCore.Configuration;
+using Common;
+using Common.Database;
 using FirebaseAdmin.Messaging;
 using MassTransit;
 using MediatR;

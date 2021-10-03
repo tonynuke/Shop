@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace Common.AspNetCore.Swagger
+namespace Common.Swagger
 {
     /// <summary>
     /// <see cref="IApplicationBuilder"/> swagger extensions.

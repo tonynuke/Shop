@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using Common.AspNetCore.Outbox;
 using System.Threading.Tasks;
 using AutoFixture;
+using Common.Outbox;
 using DataAccess;
+using DataAccess.Entities;
 using Domain;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
@@ -32,7 +33,7 @@ namespace Tests
             };
             await context.Events.InsertManyAsync(events);
 
-            var service = new OutboxService(context);
+            var service = new OutboxPublisher(context);
             await service.Send();
         }
     }

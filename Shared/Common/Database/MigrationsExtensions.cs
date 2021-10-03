@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Common.AspNetCore.Configuration
+namespace Common.Database
 {
     /// <summary>
     /// Migrations configuration extensions.

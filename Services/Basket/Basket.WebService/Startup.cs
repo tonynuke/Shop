@@ -1,7 +1,7 @@
 using Basket.Persistence;
 using Basket.Services;
-using Common.AspNetCore;
-using Common.AspNetCore.Configuration;
+using Common;
+using Common.Database;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -4,10 +4,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Confluent.Kafka;
 using DataAccess;
+using DataAccess.Entities;
 using Domain;
 using MongoDB.Driver;
 
-namespace Common.AspNetCore.Outbox
+namespace Common.Outbox
 {
     /// <summary>
     /// Sends events from events collection to queue.
@@ -15,7 +16,7 @@ namespace Common.AspNetCore.Outbox
     /// TODO: Look at MongoDb change streams
     /// https://debezium.io/
     /// https://docs.mongodb.com/kafka-connector/current/
-    public class OutboxService : IDisposable
+    public class OutboxPublisher : IDisposable
     {
         private const int BatchSize = 100;
         private const string TopicName = "topicName";
@@ -29,10 +30,10 @@ namespace Common.AspNetCore.Outbox
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OutboxService"/> class.
+        /// Initializes a new instance of the <see cref="OutboxPublisher"/> class.
         /// </summary>
         /// <param name="dbContext">Context.</param>
-        public OutboxService(DbContext dbContext)
+        public OutboxPublisher(DbContext dbContext)
         {
             _dbContext = dbContext;
             _producer = new ProducerBuilder<Null, string>(_producerConfig).Build();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Common.AspNetCore.Logging
+namespace Common.Logging
 {
     /// <summary>
     /// Logging middleware.

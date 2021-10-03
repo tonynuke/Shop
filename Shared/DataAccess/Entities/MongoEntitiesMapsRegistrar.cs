@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Domain;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
@@ -96,6 +97,21 @@ namespace DataAccess.Entities
             var type = typeof(TSerializer);
             var serializer = (IBsonSerializer<TValue>)Activator.CreateInstance(type);
             BsonSerializer.RegisterSerializer(serializer);
+        }
+
+        public static void RegisterHierarchy(
+            Type parentType, Assembly childEntitiesAssembly)
+        {
+            BsonClassMap.RegisterClassMap<DomainEventBase>(map =>
+            {
+                map.AutoMap();
+                map.SetIsRootClass(true);
+
+                childEntitiesAssembly.GetTypes()
+                    .Where(parentType.IsAssignableFrom)
+                    .ToList()
+                    .ForEach(map.AddKnownType);
+            });
         }
     }
 }

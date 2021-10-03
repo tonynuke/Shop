@@ -128,7 +128,8 @@ services:
     depends_on:
       - zoonavigator-api
     restart: unless-stopped
-    
+  
+  # Web client for kafka  
   kafdrop:
     image: obsidiandynamics/kafdrop
     container_name: kafdrop

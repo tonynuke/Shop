@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Common.AspNetCore.Outbox
+namespace Common.Outbox
 {
     /// <summary>
     /// Message handler interface.

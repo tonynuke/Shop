@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Catalog.Persistence;
-using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
+using Catalog.Items;
 using Nest;
 
 namespace Catalog.Indexing
@@ -11,39 +9,26 @@ namespace Catalog.Indexing
     /// <summary>
     /// Indexing service.
     /// </summary>
-    public class IndexingService
+    public class CatalogIndexer
     {
-        private readonly CatalogContext _context;
         private readonly IElasticClient _elasticClient;
-        private readonly ILogger<IndexingService> _logger;
 
-        public IndexingService(
-            CatalogContext context,
-            IElasticClient elasticClient,
-            ILogger<IndexingService> logger)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatalogIndexer"/> class.
+        /// </summary>
+        /// <param name="elasticClient">Elastic client.</param>
+        public CatalogIndexer(IElasticClient elasticClient)
         {
-            _context = context;
             _elasticClient = elasticClient;
-            _logger = logger;
         }
 
         /// <summary>
         /// Indexes the item.
         /// </summary>
-        /// <param name="itemId">Item id.</param>
+        /// <param name="item">Item.</param>
         /// <returns>Asynchronous operation.</returns>
-        public async Task Index(Guid itemId)
+        public async Task Index(CatalogItem item)
         {
-            var item = await _context.Items
-                .Find(x => x.Id == itemId)
-                .SingleOrDefaultAsync();
-
-            if (item == null)
-            {
-                _logger.LogWarning("Item with id {Id} not found.", itemId);
-                return;
-            }
-
             var indexItem = new Item
             {
                 Id = item.Id,

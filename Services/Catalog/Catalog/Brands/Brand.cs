@@ -1,4 +1,5 @@
 ﻿using Catalog.Items;
+using Catalog.Messages.Events;
 using DataAccess.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -41,7 +42,10 @@ namespace Catalog.Brands
         /// <returns>Catalog item.</returns>
         public CatalogItem CreateItem(Name name, string description, decimal price)
         {
-            return new CatalogItem(this, name, description, price);
+            var item = new CatalogItem(this, name, description, price);
+            var itemAdded = new ItemAdded(item.Id);
+            item.AddEvent(itemAdded);
+            return item;
         }
     }
 }

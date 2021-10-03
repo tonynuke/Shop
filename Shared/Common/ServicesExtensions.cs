@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using Common.AspNetCore.Logging;
-using Common.AspNetCore.Swagger;
+using Common.Auth;
+using Common.Logging;
+using Common.Swagger;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
-namespace Common.AspNetCore.Configuration
+namespace Common
 {
     /// <summary>
     /// Services configuration extensions.
@@ -41,7 +42,7 @@ namespace Common.AspNetCore.Configuration
             services.ConfigureAuthorization();
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddProblemDetails(ProblemDetails.ConfigureProblemDetails);
+            services.AddProblemDetails(ProblemDetailsExtensions.ConfigureProblemDetails);
             services.AddControllers()
                 .AddProblemDetailsConventions()
                 .AddJsonOptions(options =>

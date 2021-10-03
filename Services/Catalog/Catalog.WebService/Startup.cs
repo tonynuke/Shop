@@ -2,11 +2,18 @@ using System;
 using Catalog.Brands;
 using Catalog.Indexing;
 using Catalog.Items;
+using Catalog.Messages.Events;
 using Catalog.Persistence;
-using Common.AspNetCore;
-using Common.AspNetCore.Configuration;
+using Common;
 using Common.Configuration;
+using Common.Database;
+using Common.Outbox;
+using Common.Scheduler;
+using DataAccess.Entities;
+using Domain;
+using Hangfire;
 using Mapster;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,17 +53,27 @@ namespace Catalog.WebService
 
             AddElasticSearch(services, Configuration);
             services.ConfigureMongoDb(Configuration);
+            MongoEntitiesMapsRegistrar.RegisterHierarchy(typeof(DomainEventBase), typeof(ItemAdded).Assembly);
             services.AddMongoDbContext<CatalogContext>();
-            services.AddSingleton<IndexingService>();
+            services.AddSingleton<CatalogIndexer>();
             services.AddSingleton<BrandsService>();
             services.AddSingleton<CatalogItemsService>();
             TypeAdapterConfig.GlobalSettings.Scan(typeof(Mapper).Assembly);
+
+            services.ConfigureMassTransit(Configuration);
+            services.ConfigureHangfire(Configuration);
+
+            services.AddScoped(provider =>
+            {
+                var context = provider.GetRequiredService<CatalogContext>();
+                var publishEndpoint = provider.GetRequiredService<IPublishEndpoint>();
+                return new OutboxRabbitMqPublisher(context, publishEndpoint);
+            });
         }
 
-        private bool Handler(AuthorizationHandlerContext arg)
+        private static bool Handler(AuthorizationHandlerContext arg)
         {
-            return
-                arg.User.HasClaim(AuthorizationPolicies.Catalog, "all");
+            return arg.User.HasClaim(AuthorizationPolicies.Catalog, "all");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +82,14 @@ namespace Catalog.WebService
         {
             ServicesExtensions.ConfigureBase(app, env, provider);
             MigrationsExtensions.ApplyDevelopmentMigrations<CatalogContext>(app, env);
+            app.UseHangfireDashboard();
+            ConfigureJobs();
+        }
+
+        private static void ConfigureJobs()
+        {
+            RecurringJob.AddOrUpdate(
+                (OutboxRabbitMqPublisher service) => service.Publish(), Cron.Minutely);
         }
 
         private static void AddElasticSearch(IServiceCollection services, IConfiguration configuration)

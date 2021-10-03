@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace Common.AspNetCore.Auth
+namespace Common.Auth
 {
     /// <summary>
     /// <see cref="ClaimsPrincipal"/> extensions.

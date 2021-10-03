@@ -3,9 +3,9 @@ using System.Net.Http;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Http;
 
-namespace Common.AspNetCore.Configuration
+namespace Common
 {
-    public class ProblemDetails
+    public class ProblemDetailsExtensions
     {
         public static void ConfigureProblemDetails(ProblemDetailsOptions options)
         {

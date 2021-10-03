@@ -1,7 +1,6 @@
 using Basket.Client.V1;
 using Catalog.Client.V1;
-using Common.AspNetCore;
-using Common.AspNetCore.Configuration;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;

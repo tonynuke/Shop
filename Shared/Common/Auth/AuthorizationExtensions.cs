@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.AspNetCore.Configuration
+namespace Common.Auth
 {
     /// <summary>
     /// Authorization configuration extensions.

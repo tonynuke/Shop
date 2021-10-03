@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Configuration
+namespace Common.Auth
 {
     /// <summary>
     /// Service to service authorization config.

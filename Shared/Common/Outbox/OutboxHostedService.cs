@@ -5,7 +5,7 @@ using DataAccess;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Common.AspNetCore.Outbox
+namespace Common.Outbox
 {
     public class OutboxHostedService : BackgroundService
     {

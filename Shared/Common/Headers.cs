@@ -1,4 +1,4 @@
-﻿namespace Common.AspNetCore
+﻿namespace Common
 {
     /// <summary>
     /// Headers names.

@@ -4,7 +4,7 @@ using Basket.Domain;
 using Basket.Services;
 using Basket.WebService.Dto;
 using Common.Api;
-using Common.AspNetCore.Auth;
+using Common.Auth;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

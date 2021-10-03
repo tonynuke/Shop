@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Common.Swagger;
 using Common.Swagger.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Common.AspNetCore.Swagger
+namespace Common.Swagger
 {
     /// <summary>
     /// <see cref="IServiceCollection"/> swagger extensions.

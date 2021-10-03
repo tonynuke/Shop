@@ -1,13 +1,12 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Configuration;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
-namespace Common.AspNetCore.Auth
+namespace Common.Auth
 {
     /// <summary>
     /// Service to service auth handler.

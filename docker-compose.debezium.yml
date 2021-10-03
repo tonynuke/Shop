@@ -1,0 +1,5 @@
+version: '3' 
+services:
+  debezium:
+    image: debezium/debezium-connector-mongodb:latest
+    container_name: debezium

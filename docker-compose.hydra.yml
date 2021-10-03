@@ -1,5 +1,3 @@
-#https://github.com/TribalScale/kafka-waffle-stack
-
 version: "3.9" 
 services:
 

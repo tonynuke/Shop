@@ -77,7 +77,7 @@ namespace DataAccess.Migrations.Services
         /// <returns>Asynchronous operation.</returns>
         public async Task RevertMigration(IMigration migration)
         {
-            // TODO:
+            // TODO: add validation
             await migration.Down();
         }
 

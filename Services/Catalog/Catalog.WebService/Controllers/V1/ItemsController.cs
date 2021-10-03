@@ -26,14 +26,14 @@ namespace Catalog.WebService.Controllers.V1
     public class ItemsController : ControllerBase
     {
         private readonly CatalogItemsService _itemsService;
-        private readonly IndexingService _indexingService;
+        private readonly CatalogIndexer _indexingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemsController"/> class.
         /// </summary>
         /// <param name="itemsService">Items service.</param>
         /// <param name="indexingService">Indexing service.</param>
-        public ItemsController(CatalogItemsService itemsService, IndexingService indexingService)
+        public ItemsController(CatalogItemsService itemsService, CatalogIndexer indexingService)
         {
             _itemsService = itemsService;
             _indexingService = indexingService;

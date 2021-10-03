@@ -2,9 +2,8 @@
 using System.Text.Json;
 using System.Threading;
 using Confluent.Kafka;
-using Domain;
 
-namespace Common.AspNetCore.Outbox
+namespace Common.Outbox
 {
     /// <summary>
     /// Consumer.
@@ -18,15 +17,16 @@ namespace Common.AspNetCore.Outbox
         /// Initializes a new instance of the <see cref="Consumer"/> class.
         /// </summary>
         /// <param name="topic">Topic.</param>
+        /// <param name="groupId">Group id.</param>
         /// <param name="serviceProvider">Service provider.</param>
-        public Consumer(string topic, IServiceProvider serviceProvider)
+        public Consumer(string topic, string groupId, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 
             var config = new ConsumerConfig
             {
                 BootstrapServers = "127.0.0.1:29092",
-                GroupId = "foo",
+                GroupId = groupId,
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 

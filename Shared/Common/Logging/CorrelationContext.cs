@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Common.AspNetCore.Logging
+namespace Common.Logging
 {
     /// <summary>
     /// Correlation context.

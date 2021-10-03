@@ -46,7 +46,6 @@ namespace Catalog.Items
                 .ToResult(ErrorCodes.NotFound)
                 .Map(brand => brand.CreateItem(dto.Name, dto.Description, dto.Price))
                 .Tap(InsertOne)
-
                 .Map(item => item.Id);
 
             Task InsertOne(CatalogItem item)

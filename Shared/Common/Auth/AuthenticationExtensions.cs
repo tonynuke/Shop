@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Common.AspNetCore.Configuration
+namespace Common.Auth
 {
     /// <summary>
     /// Authentication configuration extensions.

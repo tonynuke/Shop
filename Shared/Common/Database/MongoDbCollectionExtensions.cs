@@ -1,14 +1,16 @@
 ﻿using System;
-using Common.Configuration;
+using System.Reflection;
 using DataAccess;
 using DataAccess.Entities;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 
-namespace Common.AspNetCore
+namespace Common.Database
 {
     public static class MongoDbCollectionExtensions
     {

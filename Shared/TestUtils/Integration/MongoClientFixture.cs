@@ -1,4 +1,5 @@
 ﻿using Common.Configuration;
+using Common.Database;
 using DataAccess.Entities;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;

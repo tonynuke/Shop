@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.Http;
-using Common.AspNetCore.Auth;
+using Common.Auth;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 
-namespace Common.AspNetCore
+namespace Common
 {
     /// <summary>
     /// <see cref="IServiceCollection"/> <see cref="HttpClient"/> extensions.

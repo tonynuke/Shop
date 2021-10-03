@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess.Entities;
 using DataAccess.Migrations;
 using Domain;
 using MongoDB.Driver;
@@ -69,6 +70,32 @@ namespace DataAccess
             try
             {
                 await func();
+            }
+            catch
+            {
+                await session.AbortTransactionAsync();
+                throw;
+            }
+
+            await session.CommitTransactionAsync();
+        }
+
+        /// <summary>
+        /// Executes <paramref name="func"/> in transaction with domain events.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity type.</typeparam>
+        /// <param name="entity">Entity.</param>
+        /// <param name="func">Func.</param>
+        /// <returns>Asynchronous operation.</returns>
+        public virtual async Task ExecuteInTransaction<TEntity>(TEntity entity, Func<Task> func)
+            where TEntity : IDomainEntity
+        {
+            using var session = await _client.StartSessionAsync();
+            session.StartTransaction();
+            try
+            {
+                await func();
+                await Events.InsertManyAsync(entity.DomainEvents);
             }
             catch
             {

@@ -1,4 +1,4 @@
-﻿namespace Common.Configuration
+﻿namespace Common.Database
 {
     /// <summary>
     /// Database configuration.
