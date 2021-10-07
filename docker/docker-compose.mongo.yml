@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27018:27017
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all" ]
+  
+  mongosetup:
+    image: mongo
+    container_name: mongosetup
+    depends_on:
+      - mongo
+    restart: "no"
+    entrypoint: [ "bash", "-c", "sleep 10 && mongo --host mongo:27017 --eval 'rs.initiate()'"]  
+
+  # mongodb single instance replica set 
+  # multi instance replica set https://37yonub.ru/articles/mongo-replica-set-docker-localhost
+  # mongo1:
+    # image: mongo
+    # container_name: mongo1
+    # ports:
+      # - 27018:27017
+    # entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all" ]
+  
+  # mongo2:
+   # image: mongo
+   # container_name: mongo2
+   # ports:
+     # - 27019:27017
+   # entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all" ]
+  
+  # mongo3:
+   # image: mongo
+   # container_name: mongo3
+   # ports:
+     # - 27020:27017
+   # entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all" ]
+  
+  # mongosetup:
+    # image: mongo
+    # container_name: mongosetup
+    # depends_on:
+      # - mongo1
+      # - mongo2
+      # - mongo3
+    # restart: "no"
+    # entrypoint: [ "bash", "-c" ]
+    # command:
+      # - | 
+          # sleep 10 && mongo --host mongo1:27017 --eval "rs.initiate({
+          # _id : \"rs0\",
+          # members: [
+            # { _id : 0, host : \"mongo1:27017\" },
+            # { _id : 1, host : \"mongo2:27017\" },
+            # { _id : 2, host : \"mongo3:27017\" }
+          # ]})"

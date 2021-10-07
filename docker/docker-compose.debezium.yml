@@ -1,5 +1,22 @@
 version: '3' 
 services:
-  debezium:
-    image: debezium/debezium-connector-mongodb:latest
-    container_name: debezium
+  debezium-connect:
+    image: debezium/connect:latest
+    container_name: debezium-connect
+    ports:
+      - 8083:8083
+      - 5005:5005
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_source_connect_statuses
+
+  debezium-ui:
+    image: debezium/debezium-ui:latest
+    container_name: debezium-ui
+    ports:
+      - 8091:8080
+    environment:
+      KAFKA_CONNECT_URI: http://debezium-connect:8083
