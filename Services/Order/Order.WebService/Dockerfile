@@ -16,6 +16,7 @@ WORKDIR "/src/Services/Order/Order.WebService"
 RUN dotnet build "Order.WebService.csproj" -c Release -o /app/build
 
 FROM build AS publish
+ARG APP_VERSION
 RUN dotnet publish "Order.WebService.csproj" -c Release -o /app/publish /p:Version=$APP_VERSION
 
 FROM base AS final

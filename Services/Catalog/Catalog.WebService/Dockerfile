@@ -16,7 +16,8 @@ WORKDIR "/src/Services/Catalog/Catalog.WebService"
 RUN dotnet build "Catalog.WebService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Catalog.WebService.csproj" -c Release -o /app/publish  /p:Version=$APP_VERSION
+ARG APP_VERSION
+RUN dotnet publish "Catalog.WebService.csproj" -c Release -o /app/publish /p:Version=$APP_VERSION
 
 FROM base AS final
 WORKDIR /app

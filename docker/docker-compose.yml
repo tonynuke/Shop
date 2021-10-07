@@ -4,7 +4,7 @@ services:
   catalog:
     container_name: catalog
     build:
-      context: .
+      context: ../
       dockerfile: Services/Catalog/Catalog.WebService/Dockerfile
     ports:
       - 5010:80
@@ -15,7 +15,7 @@ services:
   basket:
     container_name: basket
     build:
-      context: .
+      context: ../
       dockerfile: Services/Basket/Basket.WebService/Dockerfile
     ports:
       - 5020:80
