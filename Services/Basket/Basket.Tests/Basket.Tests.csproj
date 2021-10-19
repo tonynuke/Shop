@@ -39,6 +39,12 @@
     <ProjectReference Include="..\..\..\Shared\TestUtils\TestUtils.csproj" />
     <ProjectReference Include="..\..\Catalog\Catalog.Client\Catalog.Client.csproj" />
     <ProjectReference Include="..\Basket.Client\Basket.Client.csproj" />
+    <ProjectReference Include="..\Basket.GrpcClient\Basket.GrpcClient.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\Basket.GrpcService\Basket.GrpcService.csproj">
+      <Aliases>GrpcService</Aliases>
+    </ProjectReference>
     <ProjectReference Include="..\Basket.WebService\Basket.WebService.csproj" />
     <ProjectReference Include="..\Basket\Basket.csproj" />
   </ItemGroup>

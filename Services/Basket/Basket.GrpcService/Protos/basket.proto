@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option csharp_namespace = "Basket.GrpcClient";
+
+package basket.v1;
+
+// The greeting service definition.
+service Basket {
+  // Gets or creates a basket.
+  rpc GetOrCreateBasket (GetOrCreateBasketRequest) returns (BasketReply);
+
+  // Updates the basket.
+  rpc UpdateBasket (UpdateBasketRequest) returns (BasketReply);
+
+  // Clears the basket.
+  rpc ClearBasket (ClearBasketRequest) returns (BasketReply);
+}
+
+// Get or create basket request.
+message GetOrCreateBasketRequest {
+}
+
+// Update basket request.
+message UpdateBasketRequest {
+  // Items.
+  repeated BasketItemDto items = 1;
+}
+
+// Clear basket request.
+message ClearBasketRequest {
+}
+
+// Basket.
+message BasketReply {
+  // Id.
+  string id = 1;
+
+  // Items.
+  repeated BasketItemDto items = 2;
+}
+
+message BasketItemDto {
+  // Id.
+  string id = 1;
+
+  // Quantity.
+  int32 quantity = 2;
+}

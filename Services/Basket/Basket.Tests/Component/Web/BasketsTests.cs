@@ -13,7 +13,7 @@ using TestUtils;
 using TestUtils.Component;
 using Xunit;
 
-namespace Basket.Tests.Component
+namespace Basket.Tests.Component.Web
 {
     [Collection(StandCollectionFixture.Name)]
     public class BasketsTests
