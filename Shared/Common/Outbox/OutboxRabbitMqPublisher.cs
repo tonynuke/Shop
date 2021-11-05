@@ -41,12 +41,12 @@ namespace Common.Outbox
                 .ToListAsync();
 
             // HACK: cast to actual event types to make rabbit mq routing work.
-            await Task.WhenAll(events.Select(@event =>
+            foreach (var @event in events)
             {
                 var actualEventType = @event.GetType();
                 var actualEvent = Convert.ChangeType(@event, actualEventType);
-                return _publishEndpoint.Publish(actualEvent);
-            }));
+                await _publishEndpoint.Publish(actualEvent);
+            }
 
             var ids = events.Select(e => e.Id);
             await _dbContext.Events.DeleteManyAsync(e => ids.Contains(e.Id));
