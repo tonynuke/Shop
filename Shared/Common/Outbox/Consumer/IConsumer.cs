@@ -1,19 +1,19 @@
 ﻿using System.Threading.Tasks;
 
-namespace Common.Outbox
+namespace Common.Outbox.Consumer
 {
     /// <summary>
-    /// Message handler interface.
+    /// Message consumer interface.
     /// </summary>
     /// <typeparam name="TMessage">Message.</typeparam>
-    public interface IMessageHandler<in TMessage>
+    public interface IConsumer<in TMessage>
         where TMessage : class
     {
         /// <summary>
-        /// Handles the message.
+        /// Consumes the <paramref name="message"/>.
         /// </summary>
         /// <param name="message">Message.</param>
         /// <returns>Asynchronous operation.</returns>
-        Task Handle(TMessage message);
+        Task Consume(TMessage message);
     }
 }

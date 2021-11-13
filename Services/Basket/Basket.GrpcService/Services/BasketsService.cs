@@ -1,19 +1,19 @@
-using Grpc.Core;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Basket.Domain;
 using Basket.GrpcClient;
 using Basket.Services.Dto;
+using Grpc.Core;
 using Mapster;
+using Microsoft.Extensions.Logging;
 
-namespace Basket.GrpcService
+namespace Basket.GrpcService.Services
 {
     public class BasketsService : GrpcClient.Basket.BasketBase
     {
-        private readonly Services.BasketsService _basketService;
+        private readonly Basket.Services.BasketsService _basketService;
         private readonly ILogger<BasketsService> _logger;
 
-        public BasketsService(Services.BasketsService basketService, ILogger<BasketsService> logger)
+        public BasketsService(Basket.Services.BasketsService basketService, ILogger<BasketsService> logger)
         {
             _basketService = basketService;
             _logger = logger;

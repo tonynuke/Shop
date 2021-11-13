@@ -3,23 +3,23 @@ using System.Text.Json;
 using System.Threading;
 using Confluent.Kafka;
 
-namespace Common.Outbox
+namespace Common.Outbox.Consumer
 {
     /// <summary>
     /// Consumer.
     /// </summary>
-    public class Consumer : IDisposable
+    public class EventsConsumer : IDisposable
     {
         private readonly IConsumer<Ignore, string> _consumer;
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Consumer"/> class.
+        /// Initializes a new instance of the <see cref="EventsConsumer"/> class.
         /// </summary>
         /// <param name="topic">Topic.</param>
         /// <param name="groupId">Group id.</param>
         /// <param name="serviceProvider">Service provider.</param>
-        public Consumer(string topic, string groupId, IServiceProvider serviceProvider)
+        public EventsConsumer(string topic, string groupId, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 

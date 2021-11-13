@@ -7,7 +7,7 @@ using Catalog.Persistence;
 using Common;
 using Common.Configuration;
 using Common.Database;
-using Common.Outbox;
+using Common.Outbox.Publisher;
 using Common.Scheduler;
 using DataAccess.Entities;
 using Domain;
@@ -63,11 +63,12 @@ namespace Catalog.WebService
             services.ConfigureMassTransit(Configuration);
             services.ConfigureHangfire(Configuration);
 
-            services.AddScoped(provider =>
+            services.AddScoped<EventsPublisher>(provider =>
             {
                 var context = provider.GetRequiredService<CatalogContext>();
                 var publishEndpoint = provider.GetRequiredService<IPublishEndpoint>();
-                return new OutboxRabbitMqPublisher(context, publishEndpoint);
+                var publisher = new MassTransitPublisher(publishEndpoint);
+                return new EventsPublisher(context, publisher);
             });
         }
 
@@ -89,7 +90,7 @@ namespace Catalog.WebService
         private static void ConfigureJobs()
         {
             RecurringJob.AddOrUpdate(
-                (OutboxRabbitMqPublisher service) => service.Publish(), Cron.Minutely);
+                (EventsPublisher service) => service.Publish(), Cron.Minutely);
         }
 
         private static void AddElasticSearch(IServiceCollection services, IConfiguration configuration)
