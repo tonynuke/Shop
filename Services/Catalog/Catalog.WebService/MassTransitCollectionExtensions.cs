@@ -38,5 +38,32 @@ namespace Catalog.WebService
 
             return services;
         }
+
+        public static IServiceCollection ConfigureMassTransitViaKafka(
+            this IServiceCollection services, IConfiguration configuration)
+        {
+            var config = configuration.GetSection(KafkaConfiguration.Key).Get<KafkaConfiguration>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CatalogIndexerConsumer>();
+
+                x.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.ConfigureEndpoints(context);
+                });
+                x.AddRider(configurator =>
+                {
+                    configurator.UsingKafka((context, factoryConfigurator) =>
+                    {
+                        factoryConfigurator.Host(config.Host);
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
+
+            return services;
+        }
     }
 }

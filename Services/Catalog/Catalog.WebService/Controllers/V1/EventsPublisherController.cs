@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Common.Outbox;
+using Common.Outbox.Publisher;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.WebService.Controllers.V1
@@ -12,13 +13,13 @@ namespace Catalog.WebService.Controllers.V1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EventsPublisherController : ControllerBase
     {
-        private readonly OutboxRabbitMqPublisher _publisher;
+        private readonly EventsPublisher _publisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventsPublisherController"/> class.
         /// </summary>
         /// <param name="publisher">Publisher.</param>
-        public EventsPublisherController(OutboxRabbitMqPublisher publisher)
+        public EventsPublisherController(EventsPublisher publisher)
         {
             _publisher = publisher;
         }
