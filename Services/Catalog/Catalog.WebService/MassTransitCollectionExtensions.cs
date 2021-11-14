@@ -1,8 +1,10 @@
 ﻿using Catalog.Indexing;
 using Common.Configuration;
+using Common.Outbox.Publisher;
 using Domain;
 using GreenPipes;
 using MassTransit;
+using MassTransit.KafkaIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -42,21 +44,27 @@ namespace Catalog.WebService
         public static IServiceCollection ConfigureMassTransitViaKafka(
             this IServiceCollection services, IConfiguration configuration)
         {
-            var config = configuration.GetSection(KafkaConfiguration.Key).Get<KafkaConfiguration>();
+            //var config = configuration.GetSection(KafkaConfiguration.Key).Get<KafkaConfiguration>();
 
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<CatalogIndexerConsumer>();
-
-                x.UsingRabbitMq((context, configurator) =>
+                x.UsingInMemory((context, configurator) =>
                 {
                     configurator.ConfigureEndpoints(context);
                 });
                 x.AddRider(configurator =>
                 {
+                    configurator.AddProducer<KafkaEventEnvelope>("topic-name");
+                    configurator.AddConsumer<CatalogIndexerConsumer>();
                     configurator.UsingKafka((context, factoryConfigurator) =>
                     {
-                        factoryConfigurator.Host(config.Host);
+                        //factoryConfigurator.Host(config.Host);
+                        factoryConfigurator.Host("localhost:29092");
+                        factoryConfigurator.TopicEndpoint<KafkaEventEnvelope>("topic-name", "consumer-group-name", e =>
+                        {
+                            e.ConfigureConsumer<CatalogIndexerConsumer>(context);
+                            e.CreateIfMissing();
+                        });
                     });
                 });
             });

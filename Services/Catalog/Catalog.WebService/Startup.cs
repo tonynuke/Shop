@@ -8,6 +8,7 @@ using Common;
 using Common.Configuration;
 using Common.Database;
 using Common.Outbox.Publisher;
+using Common.Outbox.Publisher.MassTransit;
 using Common.Scheduler;
 using DataAccess.Entities;
 using Domain;
@@ -67,7 +68,7 @@ namespace Catalog.WebService
             {
                 var context = provider.GetRequiredService<CatalogContext>();
                 var publishEndpoint = provider.GetRequiredService<IPublishEndpoint>();
-                var publisher = new MassTransitPublisher(publishEndpoint);
+                var publisher = new RabbitMqPublisher(publishEndpoint);
                 return new EventsPublisher(context, publisher);
             });
         }

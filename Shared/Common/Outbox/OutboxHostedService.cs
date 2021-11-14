@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using DataAccess;
+﻿using DataAccess;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Common.Outbox
 {
@@ -45,11 +45,6 @@ namespace Common.Outbox
 
         private async Task DoWork(CancellationToken cancellationToken)
         {
-            //using (var scope = _serviceProvider.CreateScope())
-            //{
-            //    var scheduler = scope.ServiceProvider.GetRequiredService<ISynchronizationsScheduler>();
-            //    await scheduler.QueueSynchronizations();
-            //}
         }
     }
 }

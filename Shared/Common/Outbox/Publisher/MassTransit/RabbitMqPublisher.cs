@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Domain;
+using MassTransit;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
-using MassTransit;
 
-namespace Common.Outbox.Publisher
+namespace Common.Outbox.Publisher.MassTransit
 {
     /// <summary>
     /// MassTransit publisher.
     /// </summary>
-    public class MassTransitPublisher : IPublisher
+    public class RabbitMqPublisher : IPublisher
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MassTransitPublisher"/> class.
+        /// Initializes a new instance of the <see cref="RabbitMqPublisher"/> class.
         /// </summary>
         /// <param name="publishEndpoint">Publish endpoint.</param>
-        public MassTransitPublisher(IPublishEndpoint publishEndpoint)
+        public RabbitMqPublisher(IPublishEndpoint publishEndpoint)
         {
             _publishEndpoint = publishEndpoint;
         }

@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Confluent.Kafka;
+using Domain;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Confluent.Kafka;
-using Domain;
 
-namespace Common.Outbox.Publisher
+namespace Common.Outbox.Publisher.Confluent
 {
     /// <summary>
     /// Confluent Kafka publisher.
     /// </summary>
-    public class ConfluentKafkaPublisher : IPublisher
+    public class KafkaPublisher : IPublisher
     {
         private const string TopicName = "topicName";
         private readonly IProducer<Null, string> _producer;
@@ -22,9 +22,9 @@ namespace Common.Outbox.Publisher
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfluentKafkaPublisher"/> class.
+        /// Initializes a new instance of the <see cref="KafkaPublisher"/> class.
         /// </summary>
-        public ConfluentKafkaPublisher()
+        public KafkaPublisher()
         {
             _producer = new ProducerBuilder<Null, string>(_producerConfig).Build();
         }

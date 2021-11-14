@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoFixture;
 using Common.Outbox.Publisher;
+using Common.Outbox.Publisher.Confluent;
 using Domain;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TestUtils.Integration;
 using Xunit;
 using Xunit.Abstractions;
@@ -29,7 +30,7 @@ namespace Tests.ConfluentKafka
             };
             await context.Events.InsertManyAsync(events);
 
-            var service = new EventsPublisher(context, new ConfluentKafkaPublisher());
+            var service = new EventsPublisher(context, new KafkaPublisher());
             await service.Publish();
 
             var consumer = new TestConsumer(TestOutputHelper);
