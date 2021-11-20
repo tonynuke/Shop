@@ -4,10 +4,12 @@ using Basket.GrpcClient;
 using Basket.Services.Dto;
 using Grpc.Core;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace Basket.GrpcService.Services
 {
+    //[Authorize]
     public class BasketsService : GrpcClient.Basket.BasketBase
     {
         private readonly Basket.Services.BasketsService _basketService;

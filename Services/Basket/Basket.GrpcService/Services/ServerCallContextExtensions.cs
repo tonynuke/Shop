@@ -8,7 +8,8 @@ namespace Basket.GrpcService.Services
     {
         public static Guid GetUserId(this ServerCallContext context)
         {
-            return context.GetHttpContext().User.GetUserId();
+            var httpContext = context.GetHttpContext();
+            return httpContext.User.GetUserId();
         }
     }
 }

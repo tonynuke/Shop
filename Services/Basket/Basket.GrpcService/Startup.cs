@@ -1,5 +1,6 @@
 ﻿using Basket.GrpcService.Services;
 using Basket.Persistence;
+using Common.Auth;
 using Common.Database;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
@@ -24,14 +25,17 @@ namespace Basket.GrpcService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddGrpc(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
 
-            services.AddAuthentication().AddJwtBearer();
-            services.AddAuthorization();
+            services.ConfigureAuthentication(Configuration);
+            services.ConfigureAuthorization();
 
             services.ConfigureMongoDb(Configuration);
             services.AddMongoDbContext<BasketContext>();
-            services.AddSingleton<Services.BasketsService>();
+            services.AddSingleton<Basket.Services.BasketsService>();
 
             TypeAdapterConfig.GlobalSettings.Scan(typeof(Mapper).Assembly);
         }
@@ -51,11 +55,12 @@ namespace Basket.GrpcService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<BasketsService>();
+                endpoints.MapGrpcService<BasketsService>().RequireAuthorization();
 
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                    await context.Response.WriteAsync(
+                        "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
                 });
             });
         }
