@@ -19,8 +19,9 @@ namespace Catalog.Tests.Integration
         {
         }
 
+        // TODO: add assertions
         [Fact]
-        public async Task C()
+        public async Task Save_same_events_only_once()
         {
             var repo = new CatalogContext(Database);
 
