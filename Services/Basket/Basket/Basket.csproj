@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -12,8 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-		<ProjectReference Include="..\..\..\Shared\DataAccess\DataAccess.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
 		<ProjectReference Include="..\..\Catalog\Catalog.Client\Catalog.Client.csproj" />
 	</ItemGroup>
 

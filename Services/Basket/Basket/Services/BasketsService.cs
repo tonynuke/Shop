@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Basket.Persistence;
 using Basket.Services.Dto;
+using Common.MongoDb;
 using CSharpFunctionalExtensions;
-using DataAccess;
 using MongoDB.Driver;
 
 namespace Basket.Services

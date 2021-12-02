@@ -1,4 +1,4 @@
-﻿using DataAccess;
+﻿using Common.MongoDb;
 using MongoDB.Driver;
 using Notifications.Domain;
 

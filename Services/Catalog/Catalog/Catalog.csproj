@@ -6,9 +6,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CSharpFunctionalExtensions" Version="2.26.0" />
+		<PackageReference Include="CSharpFunctionalExtensions" Version="2.26.1" />
 		<PackageReference Include="MassTransit" Version="7.2.4" />
 		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="NEST" Version="7.15.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,8 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-	  <ProjectReference Include="..\..\..\Shared\DataAccess\DataAccess.csproj" />
+	  <ProjectReference Include="..\..\..\Shared\Commom.ApiErrors\Commom.ApiErrors.csproj" />
+	  <ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
+	  <ProjectReference Include="..\..\..\Shared\Common.Utils\Common.Utils.csproj" />
 	  <ProjectReference Include="..\Catalog.Messages\Catalog.Messages.csproj" />
 	</ItemGroup>
 

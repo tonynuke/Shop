@@ -6,13 +6,13 @@ using Grpc.Net.Client;
 using TestUtils.Component;
 using Xunit;
 using Basket.GrpcClient;
-using Common.Configuration;
 using FluentAssertions;
 using Grpc.Core;
 using GrpcService::Basket.GrpcService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using TestUtils;
+using Common.Hosting.Configuration;
 
 namespace Basket.Tests.Component.Grpc
 {

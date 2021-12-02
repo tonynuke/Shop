@@ -1,5 +1,5 @@
-using Common;
-using Common.Database;
+using Common.Hosting;
+using Common.MongoDb;
 using FirebaseAdmin.Messaging;
 using MassTransit;
 using MediatR;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 using Notifications.Persistence;
 using Notifications.Services.Firebase;
 using Notifications.Services.Users;

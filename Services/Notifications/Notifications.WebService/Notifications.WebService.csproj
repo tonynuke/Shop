@@ -11,6 +11,8 @@
 		<PackageReference Include="MassTransit.AspNetCore" Version="7.2.4" />
 		<PackageReference Include="MassTransit.Kafka" Version="7.2.4" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,7 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
 		<ProjectReference Include="..\Notifications.Persistence\Notifications.Persistence.csproj" />
 		<ProjectReference Include="..\Notifications.Services\Notifications.Services.csproj" />
 	</ItemGroup>

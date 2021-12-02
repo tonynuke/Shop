@@ -1,6 +1,6 @@
 ﻿using Catalog.Items;
 using Catalog.Messages.Events;
-using DataAccess.Entities;
+using Common.MongoDb.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Catalog.Brands

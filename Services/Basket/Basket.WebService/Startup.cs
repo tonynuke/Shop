@@ -1,7 +1,8 @@
 using Basket.Persistence;
 using Basket.Services;
-using Common;
-using Common.Database;
+using Common.Hosting;
+using Common.MongoDb;
+using Common.MongoDb.Migrations;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

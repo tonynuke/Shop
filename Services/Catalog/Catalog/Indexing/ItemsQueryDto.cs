@@ -1,4 +1,4 @@
-﻿using Common.Pagination;
+﻿using Common.Utils.Pagination;
 
 namespace Catalog.Indexing
 {

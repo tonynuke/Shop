@@ -29,8 +29,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
-		<ProjectReference Include="..\..\..\Shared\DataAccess\DataAccess.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.Outbox\Common.Outbox.csproj" />
 		<ProjectReference Include="..\Catalog\Catalog.csproj" />
 	</ItemGroup>
 

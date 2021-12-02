@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Catalog.Brands;
 using Catalog.Items;
-using DataAccess.Migrations;
+using Common.MongoDb.Migrations;
 
 namespace Catalog.Persistence.Migrations
 {

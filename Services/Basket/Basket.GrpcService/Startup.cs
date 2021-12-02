@@ -1,7 +1,7 @@
 ﻿using Basket.GrpcService.Services;
 using Basket.Persistence;
-using Common.Auth;
-using Common.Database;
+using Common.Hosting.Auth;
+using Common.MongoDb;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

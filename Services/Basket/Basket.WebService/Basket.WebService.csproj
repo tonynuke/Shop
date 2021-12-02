@@ -19,7 +19,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Commom.ApiErrors\Commom.ApiErrors.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
 		<ProjectReference Include="..\..\Catalog\Catalog.Client\Catalog.Client.csproj" />
 		<ProjectReference Include="..\Basket\Basket.csproj" />
 	</ItemGroup>

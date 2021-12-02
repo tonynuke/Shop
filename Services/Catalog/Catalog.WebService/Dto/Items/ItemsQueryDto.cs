@@ -1,4 +1,4 @@
-﻿using Common.Pagination.Dto;
+﻿using Common.Utils.Pagination.Dto;
 
 namespace Catalog.WebService.Dto.Items
 {

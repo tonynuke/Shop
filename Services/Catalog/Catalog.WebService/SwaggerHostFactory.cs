@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using Common.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;

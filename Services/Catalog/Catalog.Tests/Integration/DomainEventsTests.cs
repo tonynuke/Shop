@@ -3,7 +3,7 @@ using AutoFixture;
 using Catalog.Brands;
 using Catalog.Items;
 using Catalog.Persistence;
-using DataAccess;
+using Common.MongoDb;
 using TestUtils.Integration;
 using Xunit;
 using Xunit.Abstractions;

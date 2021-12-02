@@ -4,14 +4,14 @@ using Catalog.Brands;
 using Catalog.Brands.Dto;
 using Catalog.Items;
 using Catalog.WebService.Dto.Brands;
-using Common.Api;
-using Common.Pagination;
+using Commom.ApiErrors;
+using Common.Utils.Pagination;
 using CSharpFunctionalExtensions;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PageDto = Common.Pagination.Dto.PageDto;
+using PageDto = Common.Utils.Pagination.Dto.PageDto;
 
 namespace Catalog.WebService.Controllers.V1
 {

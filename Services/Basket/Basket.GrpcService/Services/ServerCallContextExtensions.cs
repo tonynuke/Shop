@@ -1,5 +1,5 @@
 using System;
-using Common.Auth;
+using Common.Hosting.Auth;
 using Grpc.Core;
 
 namespace Basket.GrpcService.Services

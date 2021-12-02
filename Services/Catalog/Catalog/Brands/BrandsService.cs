@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Catalog.Brands.Dto;
 using Catalog.Persistence;
-using Common.Api.Errors;
-using Common.Pagination;
+using Commom.ApiErrors.Errors;
+using Common.MongoDb;
+using Common.Utils.Pagination;
 using CSharpFunctionalExtensions;
-using DataAccess;
 using MongoDB.Driver;
 
 namespace Catalog.Brands

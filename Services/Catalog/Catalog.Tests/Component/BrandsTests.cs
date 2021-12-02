@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Catalog.Client.V1;
 using Catalog.WebService;
-using Common.Configuration;
+using Common.Hosting.Configuration;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;

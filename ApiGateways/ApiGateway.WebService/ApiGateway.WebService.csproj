@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 		  <PrivateAssets>all</PrivateAssets>
@@ -21,7 +22,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Services\Basket\Basket.Client\Basket.Client.csproj" />
 		<ProjectReference Include="..\..\Services\Catalog\Catalog.Client\Catalog.Client.csproj" />
-		<ProjectReference Include="..\..\Shared\Common\Common.csproj" />
+		<ProjectReference Include="..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
 	</ItemGroup>
 
 	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">

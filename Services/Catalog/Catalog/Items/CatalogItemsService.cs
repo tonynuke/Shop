@@ -6,9 +6,9 @@ using Catalog.Brands;
 using Catalog.Items.Dto;
 using Catalog.Messages.Events;
 using Catalog.Persistence;
-using Common.Api.Errors;
+using Commom.ApiErrors.Errors;
+using Common.MongoDb;
 using CSharpFunctionalExtensions;
-using DataAccess;
 using MongoDB.Driver;
 using Result = CSharpFunctionalExtensions.Result;
 

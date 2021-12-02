@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using DataAccess.Migrations;
+using Common.MongoDb.Migrations;
 using MongoDB.Driver;
 
 namespace Basket.Persistence.Migrations

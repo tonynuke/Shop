@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.MongoDb.Entities;
 using CSharpFunctionalExtensions;
-using DataAccess.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Notifications.Domain

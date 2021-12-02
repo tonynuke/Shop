@@ -1,5 +1,5 @@
 ﻿using Catalog.Indexing;
-using Common.Configuration;
+using Common.Hosting.Configuration;
 using Common.Outbox.Publisher;
 using Domain;
 using GreenPipes;

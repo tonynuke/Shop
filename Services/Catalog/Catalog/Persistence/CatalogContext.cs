@@ -1,6 +1,6 @@
 ﻿using Catalog.Brands;
 using Catalog.Items;
-using DataAccess;
+using Common.MongoDb;
 using MongoDB.Driver;
 
 namespace Catalog.Persistence

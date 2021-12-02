@@ -1,6 +1,5 @@
-﻿using Common.Configuration;
-using Common.Database;
-using DataAccess.Entities;
+﻿using Common.MongoDb;
+using Common.MongoDb.Entities;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
