@@ -1,10 +1,8 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Identity.Client.V1;
 using Identity.WebService;
 using IdentityModel.Client;
-using TestUtils;
 using TestUtils.Component;
 using Xunit;
 

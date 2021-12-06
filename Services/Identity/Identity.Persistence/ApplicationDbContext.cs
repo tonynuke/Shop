@@ -1,8 +1,6 @@
-﻿using System.IO;
-using Identity.Domain;
+﻿using Identity.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Identity.Persistence
 {
@@ -11,6 +9,11 @@ namespace Identity.Persistence
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
     }
 }

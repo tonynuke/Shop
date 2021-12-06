@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 namespace Identity.Persistence
 {
-    // TODO: remove IDesignTimeDbContextFactory
-    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    public class ApplicationDbContextFactory
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
