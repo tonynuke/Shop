@@ -27,7 +27,7 @@ namespace Common.Outbox.Consumer
             {
                 BootstrapServers = "127.0.0.1:29092",
                 GroupId = groupId,
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Earliest,
             };
 
             _consumer = new ConsumerBuilder<Ignore, string>(config).Build();

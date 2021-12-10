@@ -18,7 +18,9 @@
                 x.AddRider(rider =>
                 {
                     rider.AddProducer<KafkaMessage>(nameof(KafkaMessage));
-                    rider.AddConsumer<KafkaMessageConsumer>();
+                    rider.AddConsumer<KafkaMessageConsumer>(x => {
+                        
+                    });
 
                     rider.UsingKafka((context, k) =>
                     {

@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MassTransit.AspNetCore" Version="7.2.4" />
-		<PackageReference Include="MassTransit.Kafka" Version="7.2.4" />
+		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
+		<PackageReference Include="MassTransit.Kafka" Version="7.3.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />

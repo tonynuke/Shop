@@ -8,9 +8,9 @@
 	  <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
 	  <PackageReference Include="Hangfire.AspNetCore" Version="1.7.27" />
 	  <PackageReference Include="Hangfire.Mongo" Version="0.7.27" />
-	  <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.2.0" />
+	  <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.3.0" />
 	  <PackageReference Include="IdentityModel" Version="5.2.0" />
-	  <PackageReference Include="MassTransit.Kafka" Version="7.2.4" />
+	  <PackageReference Include="MassTransit.Kafka" Version="7.3.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.0" />
