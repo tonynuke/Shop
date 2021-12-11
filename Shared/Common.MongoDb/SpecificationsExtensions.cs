@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Specifications;
 
 namespace Common.MongoDb
@@ -19,7 +17,7 @@ namespace Common.MongoDb
         public static IFindFluent<TDocument, TDocument> FindBySpecification<TDocument>(
             this IMongoCollection<TDocument> collection,
             SpecificationBase<TDocument> specification,
-            FindOptions options = null)
+            FindOptions? options = null)
         {
             return collection.Find(specification.ToExpression(), options);
         }

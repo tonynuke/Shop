@@ -54,13 +54,13 @@ namespace Catalog.WebService
                 });
                 x.AddRider(configurator =>
                 {
-                    configurator.AddProducer<KafkaEventEnvelope>("topic-name");
+                    configurator.AddProducer<EventEnvelope>("topic-name");
                     configurator.AddConsumer<CatalogIndexerConsumer>();
                     configurator.UsingKafka((context, factoryConfigurator) =>
                     {
                         //factoryConfigurator.Host(config.Host);
                         factoryConfigurator.Host("localhost:29092");
-                        factoryConfigurator.TopicEndpoint<KafkaEventEnvelope>("topic-name", "consumer-group-name", e =>
+                        factoryConfigurator.TopicEndpoint<EventEnvelope>("topic-name", "consumer-group-name", e =>
                         {
                             e.ConfigureConsumer<CatalogIndexerConsumer>(context);
                             e.CreateIfMissing();

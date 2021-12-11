@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Common.Outbox.Consumer
+﻿namespace Common.Outbox.Consumer
 {
     /// <summary>
     /// Message consumer interface.

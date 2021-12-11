@@ -9,13 +9,13 @@ namespace Common.Outbox.Publisher.MassTransit
     /// </summary>
     public class KafkaPublisher : IPublisher
     {
-        private readonly ITopicProducer<KafkaEventEnvelope> _topicProducer;
+        private readonly ITopicProducer<EventEnvelope> _topicProducer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KafkaPublisher"/> class.
         /// </summary>
         /// <param name="topicProducer">Publish endpoint.</param>
-        public KafkaPublisher(ITopicProducer<KafkaEventEnvelope> topicProducer)
+        public KafkaPublisher(ITopicProducer<EventEnvelope> topicProducer)
         {
             _topicProducer = topicProducer;
         }
@@ -23,10 +23,10 @@ namespace Common.Outbox.Publisher.MassTransit
         /// <inheritdoc/>
         public async Task Publish(IEnumerable<DomainEventBase> events)
         {
-            // HACK: cast to actual event types to make rabbit mq routing work.
+            // HACK: Cast to actual event types to make rabbit mq routing work.
             foreach (var @event in events)
             {
-                var envelope = new KafkaEventEnvelope(@event);
+                var envelope = new EventEnvelope(@event);
                 await _topicProducer.Produce(envelope);
             }
         }

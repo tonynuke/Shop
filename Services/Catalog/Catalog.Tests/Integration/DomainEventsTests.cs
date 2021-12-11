@@ -3,7 +3,8 @@ using AutoFixture;
 using Catalog.Brands;
 using Catalog.Items;
 using Catalog.Persistence;
-using Common.MongoDb;
+using CSharpFunctionalExtensions;
+using FluentAssertions;
 using TestUtils.Integration;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,7 +15,7 @@ namespace Catalog.Tests.Integration
     {
         private readonly Fixture _fixture = new();
 
-        public DomainEventsTests(ITestOutputHelper testOutputHelper) 
+        public DomainEventsTests(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
         }
@@ -23,15 +24,25 @@ namespace Catalog.Tests.Integration
         [Fact]
         public async Task Save_same_events_only_once()
         {
-            var repo = new CatalogContext(Database);
+            var catalogContext = new CatalogContext(Database);
+            var brandsService = new BrandsService(catalogContext);
+            var itemsService = new CatalogItemsService(brandsService, catalogContext);
 
             var name = Name.Create(_fixture.Create<string>()).Value;
-            var item = new CatalogItem(new Brand(name), name, "", 100);
-            await repo.Items.InsertOneAsync(item);
 
-            item.Price = 300;
+            var result = await brandsService.CreateBrand(new Brands.Dto.CreateBrand(name, _fixture.Create<string>()))
+                .Check(brandId => itemsService.Create(
+                    new Items.Dto.CreateItemDto(
+                        brandId, name, _fixture.Create<string>(), _fixture.Create<decimal>())));
 
-            await repo.Items.ReplaceOneOcc(item);
+            result.IsSuccess.Should().BeTrue();
+            var item = result.Value;
+
+            //var name = Name.Create(_fixture.Create<string>()).Value;
+            //var item = new CatalogItem(new Brand(name), name, "", 100);
+            //item.Price = 300;
+
+            //item.DomainEvents.Should().HaveCount(1);
         }
     }
 }

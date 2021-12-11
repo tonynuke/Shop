@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Catalog.Messages.Events
 {
     [BsonDiscriminator("itemDeleted")]
-    public class ItemDeleted : DomainEventBase
+    public record ItemDeleted : DomainEventBase
     {
         public ItemDeleted(Guid itemId)
         {

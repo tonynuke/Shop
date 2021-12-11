@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Domain;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -99,19 +97,34 @@ namespace Common.MongoDb.Entities
             BsonSerializer.RegisterSerializer(serializer);
         }
 
-        public static void RegisterHierarchy(
-            Type parentType, Assembly childEntitiesAssembly)
+        public static void RegisterHierarchy<TParentType>(Assembly childEntitiesAssembly)
         {
-            BsonClassMap.RegisterClassMap<DomainEventBase>(map =>
+            var type = typeof(TParentType);
+            BsonClassMap.RegisterClassMap<TParentType>(map =>
             {
                 map.AutoMap();
                 map.SetIsRootClass(true);
 
                 childEntitiesAssembly.GetTypes()
-                    .Where(parentType.IsAssignableFrom)
+                    .Where(type.IsAssignableFrom)
                     .ToList()
                     .ForEach(map.AddKnownType);
             });
         }
+
+        //public static void RegisterHierarchy(
+        //    Type parentType, Assembly childEntitiesAssembly)
+        //{
+        //    BsonClassMap.RegisterClassMap<DomainEventBase>(map =>
+        //    {
+        //        map.AutoMap();
+        //        map.SetIsRootClass(true);
+
+        //        childEntitiesAssembly.GetTypes()
+        //            .Where(parentType.IsAssignableFrom)
+        //            .ToList()
+        //            .ForEach(map.AddKnownType);
+        //    });
+        //}
     }
 }

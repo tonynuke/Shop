@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Common.MongoDb;
+﻿using Common.MongoDb;
 using Domain;
 using MongoDB.Driver;
 

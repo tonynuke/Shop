@@ -1,11 +1,7 @@
-﻿using System;
-using System.Reflection;
-using Common.MongoDb.Entities;
-using Domain;
+﻿using Common.MongoDb.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 
@@ -23,9 +19,10 @@ namespace Common.MongoDb
         public static IServiceCollection ConfigureMongoDb(
             this IServiceCollection services,
             IConfiguration configuration,
-            MongoDatabaseSettings mongoDatabaseSettings = null)
+            MongoDatabaseSettings? mongoDatabaseSettings = null)
         {
             MongoEntitiesMapsRegistrar.RegisterConventions();
+            MongoEntitiesMapsRegistrar.RegisterEntitiesMapsFromAssembly(typeof(EntityBaseMap).Assembly);
 
             var databaseConfiguration = configuration.GetSection(DatabaseConfiguration.Key).Get<DatabaseConfiguration>();
             var settings = MongoClientSettings.FromConnectionString(databaseConfiguration.ConnectionString);

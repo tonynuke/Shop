@@ -1,10 +1,6 @@
 ﻿using Common.MongoDb.Migrations;
 using Domain;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Common.MongoDb
 {
@@ -87,7 +83,7 @@ namespace Common.MongoDb
         /// <param name="func">Func.</param>
         /// <returns>Asynchronous operation.</returns>
         public virtual async Task ExecuteInTransaction<TEntity>(TEntity entity, Func<Task> func)
-            where TEntity : IDomainEntity
+            where TEntity : DomainEntity
         {
             using var session = await _client.StartSessionAsync();
             session.StartTransaction();

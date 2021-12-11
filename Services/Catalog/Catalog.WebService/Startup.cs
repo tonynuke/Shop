@@ -55,7 +55,7 @@ namespace Catalog.WebService
 
             AddElasticSearch(services, Configuration);
             services.ConfigureMongoDb(Configuration);
-            MongoEntitiesMapsRegistrar.RegisterHierarchy(typeof(DomainEventBase), typeof(ItemAdded).Assembly);
+            MongoEntitiesMapsRegistrar.RegisterHierarchy<DomainEventBase>(typeof(ItemAdded).Assembly);
             services.AddMongoDbContext<CatalogContext>();
             services.AddSingleton<CatalogIndexer>();
             services.AddSingleton<BrandsService>();

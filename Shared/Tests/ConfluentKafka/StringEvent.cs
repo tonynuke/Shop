@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Tests.ConfluentKafka
 {
     [BsonDiscriminator("string")]
-    public class StringEvent : DomainEventBase
+    public record StringEvent : DomainEventBase
     {
         [BsonElement("string")]
         public string String { get; set; }

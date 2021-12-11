@@ -1,8 +1,5 @@
 ﻿using Domain;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Common.Outbox.Publisher.MassTransit
 {

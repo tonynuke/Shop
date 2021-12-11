@@ -1,13 +1,13 @@
+using System.Threading;
 using System.Threading.Tasks;
-using Common.Outbox;
-using Common.Outbox.Consumer;
+using MediatR;
 using Xunit.Abstractions;
 
 namespace Tests.ConfluentKafka
 {
     public class TestConsumer :
-        IConsumer<IntegerEvent>,
-        IConsumer<StringEvent>
+        INotificationHandler<IntegerEvent>,
+        INotificationHandler<StringEvent>
     {
         private readonly ITestOutputHelper _testOutputHelper;
 
@@ -16,15 +16,15 @@ namespace Tests.ConfluentKafka
             _testOutputHelper = testOutputHelper;
         }
 
-        public Task Consume(IntegerEvent message)
+        public Task Handle(IntegerEvent notification, CancellationToken cancellationToken)
         {
-            _testOutputHelper.WriteLine(message.Int.ToString());
+            _testOutputHelper.WriteLine(notification.Int.ToString());
             return Task.CompletedTask;
         }
 
-        public Task Consume(StringEvent message)
+        public Task Handle(StringEvent notification, CancellationToken cancellationToken)
         {
-            _testOutputHelper.WriteLine(message.String);
+            _testOutputHelper.WriteLine(notification.String);
             return Task.CompletedTask;
         }
     }

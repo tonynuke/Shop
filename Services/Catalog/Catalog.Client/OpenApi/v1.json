@@ -890,6 +890,11 @@
             "format": "uuid",
             "readOnly": true
           },
+          "parentEntityId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "created": {
             "type": "string",
             "format": "date-time",
