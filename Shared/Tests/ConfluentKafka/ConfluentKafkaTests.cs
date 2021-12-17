@@ -133,21 +133,5 @@ namespace Tests.ConfluentKafka
             var eventsConsumer = new EventsConsumer(config, TopicName, handler, Mock.Of<ILogger<EventsConsumer>>());
             eventsConsumer.Consume(cancellationToken);
         }
-
-        public class IntegerEventHandler : SingleTypeHandler<IntegerEvent>
-        {
-            private readonly ITestOutputHelper _testOutputHelper;
-
-            public IntegerEventHandler(ITestOutputHelper testOutputHelper)
-            {
-                _testOutputHelper = testOutputHelper;
-            }
-
-            protected override Task HandleInternal(IntegerEvent message)
-            {
-                _testOutputHelper.WriteLine(message.Int.ToString());
-                return Task.CompletedTask;
-            }
-        }
     }
 }
