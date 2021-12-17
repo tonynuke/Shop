@@ -1,7 +1,7 @@
 using Domain;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Tests.ConfluentKafka
+namespace Tests.ConfluentKafka.Events
 {
     [BsonDiscriminator("integer")]
     public record IntegerEvent : DomainEventBase

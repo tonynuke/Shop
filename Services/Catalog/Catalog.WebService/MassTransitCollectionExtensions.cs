@@ -63,6 +63,7 @@ namespace Catalog.WebService
                         factoryConfigurator.TopicEndpoint<EventEnvelope>("topic-name", "consumer-group-name", e =>
                         {
                             e.ConfigureConsumer<CatalogIndexerConsumer>(context);
+                            //e.SetOffsetsCommittedHandler();
                             e.CreateIfMissing();
                         });
                     });

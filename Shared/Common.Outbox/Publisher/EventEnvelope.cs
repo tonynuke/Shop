@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Common.Outbox.Publisher
 {
-    public class EventEnvelope
+    public record EventEnvelope
     {
         public EventEnvelope()
         {

@@ -8,18 +8,20 @@ namespace Common.Outbox.Publisher.Confluent
     /// <summary>
     /// Confluent Kafka publisher.
     /// </summary>
-    public class KafkaPublisher : IPublisher
+    public class KafkaPublisher : IPublisher, IDisposable
     {
+        public const string EventTypeHeader = "Type";
+
         private readonly string _topic;
         private readonly IProducer<string, string> _producer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KafkaPublisher"/> class.
         /// </summary>
-        public KafkaPublisher(ProducerConfig config, string topic)
+        public KafkaPublisher(IProducer<string, string> producer, string topic)
         {
             _topic = topic;
-            _producer = new ProducerBuilder<string, string>(config).Build();
+            _producer = producer;
         }
 
         /// <inheritdoc/>
@@ -27,13 +29,12 @@ namespace Common.Outbox.Publisher.Confluent
         {
             var messages = events.Select(@event =>
                 {
-                    var type = @event.GetType().FullName;
-                    var typeAsBytes = Encoding.UTF8.GetBytes(type!);
-                    var header = new Header("Type", typeAsBytes);
+                    var header = GetTypeHeader(@event);
+                    // Specify object type to serialize child classes properties.
+                    var value = JsonSerializer.Serialize<object>(@event);
                     return new Message<string, string>
                     {
-                        // Specify object type to serialize child classes properties.
-                        Value = JsonSerializer.Serialize<object>(@event),
+                        Value = value,
                         Key = @event.ParentEntityId,
                         Headers = new Headers() { header },
                     };
@@ -43,6 +44,19 @@ namespace Common.Outbox.Publisher.Confluent
             {
                 await _producer.ProduceAsync(_topic, message);
             }
+        }
+
+        public static Header GetTypeHeader(DomainEventBase @event)
+        {
+            var type = @event.GetType().FullName;
+            var typeAsBytes = Encoding.UTF8.GetBytes(type!);
+            return new Header(EventTypeHeader, typeAsBytes);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            _producer.Dispose();
         }
     }
 }

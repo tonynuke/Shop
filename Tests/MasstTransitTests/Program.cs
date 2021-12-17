@@ -1,12 +1,16 @@
-﻿namespace MasstTransitTests
-{
-    using MassTransit;
-    using MassTransit.KafkaIntegration;
-    using Microsoft.Extensions.DependencyInjection;
-    using System.Threading.Tasks;
+﻿using Confluent.Kafka;
+using MassTransit;
+using MassTransit.KafkaIntegration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
+namespace MasstTransitTests
+{
     public partial class Program
     {
+        private const string Topic = "masstransit-topic";
+        private const string ConsumerGroupName = "masstransit-consumer-group";
+
         public static async Task Main()
         {
             var services = new ServiceCollection();
@@ -17,21 +21,25 @@
 
                 x.AddRider(rider =>
                 {
-                    rider.AddProducer<KafkaMessage>(nameof(KafkaMessage));
-                    rider.AddConsumer<KafkaMessageConsumer>(x => {
-                        
+                    rider.AddProducer<KafkaMessage>(Topic);
+                    rider.AddConsumer<KafkaMessageConsumer>(x =>
+                    {
                     });
 
                     rider.UsingKafka((context, k) =>
                     {
                         k.Host("localhost:29092");
-
+                        
                         k.TopicEndpoint<KafkaMessage>(
-                            nameof(KafkaMessage),
-                            "consumer-group-name",
+                            Topic,
+                            ConsumerGroupName,
                             e =>
                             {
                                 e.ConfigureConsumer<KafkaMessageConsumer>(context);
+                                e.AutoOffsetReset = AutoOffsetReset.Earliest;
+                                e.SetOffsetsCommittedHandler(OffsetsCommittedHandler);
+                                e.CheckpointMessageCount = 1;
+                                e.CheckpointInterval = TimeSpan.FromSeconds(1);
                             });
                     });
                 });
@@ -52,6 +60,12 @@
             {
                 await busControl.StopAsync(TimeSpan.FromSeconds(30));
             }
+        }
+
+        private static void OffsetsCommittedHandler(IConsumer<Ignore, KafkaMessage> consumer, CommittedOffsets offsets)
+        {
+            // TODO: Why it was not called?
+            consumer.Commit();
         }
 
         static async Task Client(IServiceProvider provider)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 
 namespace Common.Outbox.Publisher
 {

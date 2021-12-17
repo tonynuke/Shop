@@ -1,7 +1,5 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using Common.Outbox.Consumer.Handlers;
 using Confluent.Kafka;
-using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Common.Outbox.Consumer
@@ -12,23 +10,26 @@ namespace Common.Outbox.Consumer
     public class EventsConsumer : IDisposable
     {
         private readonly IConsumer<string, string> _consumer;
-        private readonly IMediator _mediator;
-        private readonly IReadOnlyDictionary<string, Type> _typeMap;
-        private readonly ILogger<EventsConsumer> logger;
+        private readonly IConsumeResultHandler<string, string> _handler;
+        private readonly ILogger<EventsConsumer> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventsConsumer"/> class.
         /// </summary>
         /// <param name="config">Config.</param>
         /// <param name="topic">Topic.</param>
-        /// <param name="mediator">Service provider.</param>
+        /// <param name="handler">Handler.</param>
+        /// <param name="logger">Logger.</param>
         public EventsConsumer(
-            ConsumerConfig config, string topic, IMediator mediator, IReadOnlyDictionary<string, Type> typeMap)
+            ConsumerConfig config,
+            string topic,
+            IConsumeResultHandler<string, string> handler,
+            ILogger<EventsConsumer> logger)
         {
-            _mediator = mediator;
             _consumer = new ConsumerBuilder<string, string>(config).Build();
             _consumer.Subscribe(topic);
-            _typeMap = typeMap;
+            _handler = handler;
+            _logger = logger;
         }
 
         public async Task Consume(CancellationToken cancellationToken)
@@ -36,31 +37,16 @@ namespace Common.Outbox.Consumer
             while (!cancellationToken.IsCancellationRequested)
             {
                 var consumeResult = _consumer.Consume(cancellationToken);
-                var typeHeader = consumeResult.Message.Headers.SingleOrDefault(x => x.Key == "Type");
-
-                if (typeHeader == null)
+                try
                 {
-                    // TODO: add error handling.
-                    _consumer.Commit();
-                    continue;
+                    await _handler.Handle(consumeResult, cancellationToken);
+                    _consumer.Commit(consumeResult);
                 }
-
-                var typeHeaderBytes = typeHeader.GetValueBytes();
-                var typeName = Encoding.UTF8.GetString(typeHeaderBytes);
-                var eventType = _typeMap[typeName];
-                if (eventType == null)
+                catch (Exception ex)
                 {
-                    // TODO: add error handling.
-                    _consumer.Commit();
-                    continue;
+                    _logger.LogError(ex.Message, ex);
+                    throw;
                 }
-
-                var body = consumeResult.Message.Value;
-                var @event = JsonSerializer.Deserialize(body, eventType);
-
-                await _mediator.Publish(@event, cancellationToken);
-
-                _consumer.Commit();
             }
 
             _consumer.Close();

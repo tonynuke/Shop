@@ -1,17 +1,16 @@
-using System.Threading;
-using System.Threading.Tasks;
 using MediatR;
+using Tests.ConfluentKafka.Events;
 using Xunit.Abstractions;
 
 namespace Tests.ConfluentKafka
 {
-    public class TestConsumer :
+    public class TestHandler :
         INotificationHandler<IntegerEvent>,
         INotificationHandler<StringEvent>
     {
         private readonly ITestOutputHelper _testOutputHelper;
 
-        public TestConsumer(ITestOutputHelper testOutputHelper)
+        public TestHandler(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }
