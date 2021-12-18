@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 
 namespace Common.Hosting
 {
@@ -53,9 +54,9 @@ namespace Common.Hosting
                     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 });
 
-            services.AddHealthChecks();
-            ConfigureApiVersioning(services);
-            ConfigureSwaggerGen(services);
+            services.AddHealthChecks().ForwardToPrometheus();
+            services.ConfigureApiVersioning();
+            services.ConfigureSwaggerGen();
 
             return services;
         }
@@ -66,8 +67,9 @@ namespace Common.Hosting
         /// <param name="app">Application.</param>
         /// <param name="env">Environment.</param>
         /// <param name="provider">Provider.</param>
-        public static void ConfigureBase(
-            IApplicationBuilder app,
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        public static IApplicationBuilder ConfigureBase(
+            this IApplicationBuilder app,
             IWebHostEnvironment env,
             IApiVersionDescriptionProvider provider)
         {
@@ -97,15 +99,19 @@ namespace Common.Hosting
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpMetrics();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireAuthorization();
                 endpoints.MapHealthChecks("/health");
+                endpoints.MapMetrics();
             });
+
+            return app;
         }
 
-        public static void ConfigureApiVersioning(IServiceCollection services)
+        public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
@@ -119,11 +125,13 @@ namespace Common.Hosting
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+            return services;
         }
 
-        public static void ConfigureSwaggerGen(IServiceCollection services)
+        public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services)
         {
-            SwaggerCollectionExtensions.ConfigureSwaggerGen(services, options =>
+            return SwaggerCollectionExtensions.ConfigureSwaggerGen(services, options =>
             {
                 options.AddSecurityDefinition(
                     JwtBearerDefaults.AuthenticationScheme,

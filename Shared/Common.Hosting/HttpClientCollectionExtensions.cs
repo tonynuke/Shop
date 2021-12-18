@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
+using Prometheus;
 
 namespace Common.Hosting
 {
@@ -36,7 +37,8 @@ namespace Common.Hosting
                     client => { client.BaseAddress = new Uri(endpointUrl); })
                 .SetHandlerLifetime(TimeSpan.FromMinutes(HandlerLifeTimeMinutes))
                 .AddPolicyHandler(retryPolicy)
-                .AddHeaderPropagation();
+                .AddHeaderPropagation()
+                .UseHttpClientMetrics();
         }
 
         /// <summary>
@@ -53,7 +55,8 @@ namespace Common.Hosting
             return services.AddHttpClient<HttpClient>(CrossServiceAuthHandler.Key)
                 .SetHandlerLifetime(TimeSpan.FromMinutes(HandlerLifeTimeMinutes))
                 .AddPolicyHandler(retryPolicy)
-                .AddHeaderPropagation();
+                .AddHeaderPropagation()
+                .UseHttpClientMetrics();
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()

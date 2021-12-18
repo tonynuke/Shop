@@ -18,7 +18,7 @@ namespace Common.Swagger
     {
         public static IServiceCollection ConfigureSwaggerGen(
             this IServiceCollection services,
-            Action<SwaggerGenOptions> setupAction = null)
+            Action<SwaggerGenOptions>? setupAction = null)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options =>
