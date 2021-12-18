@@ -3,7 +3,7 @@ using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Common.Outbox
+namespace Common.Outbox.Consumer
 {
     public class CosnumerBackgroundService : BackgroundService
     {

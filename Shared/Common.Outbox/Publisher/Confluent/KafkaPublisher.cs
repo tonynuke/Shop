@@ -1,6 +1,5 @@
 ﻿using Confluent.Kafka;
 using Domain;
-using System.Text;
 using System.Text.Json;
 
 namespace Common.Outbox.Publisher.Confluent
@@ -10,8 +9,6 @@ namespace Common.Outbox.Publisher.Confluent
     /// </summary>
     public class KafkaPublisher : IPublisher, IDisposable
     {
-        public const string EventTypeHeader = "Type";
-
         private readonly string _topic;
         private readonly IProducer<string, string> _producer;
 
@@ -29,7 +26,7 @@ namespace Common.Outbox.Publisher.Confluent
         {
             var messages = events.Select(@event =>
                 {
-                    var header = GetTypeHeader(@event);
+                    var header = @event.GetTypeHeader();
                     // Specify object type to serialize child classes properties.
                     var value = JsonSerializer.Serialize<object>(@event);
                     return new Message<string, string>
@@ -44,13 +41,6 @@ namespace Common.Outbox.Publisher.Confluent
             {
                 await _producer.ProduceAsync(_topic, message);
             }
-        }
-
-        public static Header GetTypeHeader(DomainEventBase @event)
-        {
-            var type = @event.GetType().FullName;
-            var typeAsBytes = Encoding.UTF8.GetBytes(type!);
-            return new Header(EventTypeHeader, typeAsBytes);
         }
 
         /// <inheritdoc/>

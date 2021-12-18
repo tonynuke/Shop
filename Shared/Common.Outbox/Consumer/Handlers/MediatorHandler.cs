@@ -1,7 +1,5 @@
-﻿using Common.Outbox.Publisher.Confluent;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 using MediatR;
-using System.Text;
 using System.Text.Json;
 
 namespace Common.Outbox.Consumer.Handlers
@@ -19,13 +17,12 @@ namespace Common.Outbox.Consumer.Handlers
 
         public async Task Handle(ConsumeResult<string, string> consumeResult, CancellationToken cancellationToken)
         {
-            var typeHeader = consumeResult.Message.Headers.SingleOrDefault(x => x.Key == KafkaPublisher.EventTypeHeader);
-            if (typeHeader == null)
+            var isHeaderSpecified = consumeResult.Message.Headers.TryGetTypeHeader(out var typeName);
+            if (!isHeaderSpecified)
             {
                 throw new TypeHeaderIsNotSpecified();
             }
 
-            var typeName = GetTypeName(typeHeader);
             var isEventTypeFounded = _typeMap.TryGetValue(typeName, out var eventType);
             if (!isEventTypeFounded || eventType == null)
             {
@@ -34,12 +31,6 @@ namespace Common.Outbox.Consumer.Handlers
 
             var @event = JsonSerializer.Deserialize(consumeResult.Message.Value, eventType);
             await _mediator.Publish(@event!, cancellationToken);
-        }
-
-        private static string GetTypeName(IHeader header)
-        {
-            var typeHeaderBytes = header.GetValueBytes();
-            return Encoding.UTF8.GetString(typeHeaderBytes);
         }
     }
 }

@@ -1,5 +1,5 @@
 using AutoFixture;
-using Common.Outbox;
+using Common.Outbox.Consumer;
 using Common.Outbox.Consumer.Handlers;
 using Common.Outbox.Publisher.Confluent;
 using Confluent.Kafka;
