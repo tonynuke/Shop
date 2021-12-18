@@ -52,7 +52,7 @@ namespace Tests.ConfluentKafka
         }
 
         [Fact]
-        public async Task Consume_events_with_confluent_consumer()
+        public void Consume_events_with_confluent_consumer()
         {
             var cancellationToken = new CancellationTokenSource().Token;
 
@@ -81,7 +81,7 @@ namespace Tests.ConfluentKafka
         {
             var provider = new ServiceCollection()
                 .AddLogging(config => config.AddXunit(_testOutputHelper))
-                .AddMediatR(typeof(IntegerEvent))
+                .AddMediatR(typeof(StringEvent))
                 .BuildServiceProvider();
             var mediator = provider.GetRequiredService<IMediator>();
 
@@ -98,9 +98,6 @@ namespace Tests.ConfluentKafka
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
                 Acks = Acks.All,
-                //SocketTimeoutMs = 1000,
-                //SessionTimeoutMs = 1000,
-                //MaxPollIntervalMs = 1000,
             };
 
             var handler = new MediatorHandler(typeMap, mediator);
@@ -133,7 +130,7 @@ namespace Tests.ConfluentKafka
             await ExecuteService(eventsConsumer);
         }
 
-        private async Task ExecuteService(CosnumerBackgroundService service)
+        private static async Task ExecuteService(CosnumerBackgroundService service)
         {
             await service.StartAsync(CancellationToken.None);
             await Task.Delay(5000);
