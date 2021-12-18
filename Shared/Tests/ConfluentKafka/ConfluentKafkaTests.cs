@@ -1,5 +1,5 @@
 using AutoFixture;
-using Common.Outbox.Consumer;
+using Common.Outbox;
 using Common.Outbox.Consumer.Handlers;
 using Common.Outbox.Publisher.Confluent;
 using Confluent.Kafka;
@@ -7,7 +7,6 @@ using Domain;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Tests.ConfluentKafka.Events;
 using Xunit;
 using Xunit.Abstractions;
@@ -26,7 +25,7 @@ namespace Tests.ConfluentKafka
             var producerConfig = new ProducerConfig
             {
                 BootstrapServers = "127.0.0.1:29092",
-                ClientId = "ASP.NET backend"
+                ClientId = "ASP.NET backend",
             };
 
             var producer = new ProducerBuilder<string, string>(producerConfig).Build();
@@ -80,10 +79,10 @@ namespace Tests.ConfluentKafka
         [Fact]
         public async Task Consume_events_with_custom_consumer_wrapper()
         {
-            var services = new ServiceCollection();
-            services.AddMediatR(typeof(IntegerEvent));
-            services.AddSingleton(_testOutputHelper);
-            var provider = services.BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddLogging(config => config.AddXunit(_testOutputHelper))
+                .AddMediatR(typeof(IntegerEvent))
+                .BuildServiceProvider();
             var mediator = provider.GetRequiredService<IMediator>();
 
             var typeMap = new Dictionary<string, Type>()
@@ -99,23 +98,25 @@ namespace Tests.ConfluentKafka
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
                 Acks = Acks.All,
-                AutoCommitIntervalMs = 5000,
+                //SocketTimeoutMs = 1000,
+                //SessionTimeoutMs = 1000,
+                //MaxPollIntervalMs = 1000,
             };
 
-            var cts = new CancellationTokenSource();
-            var cancellationToken = cts.Token;
-
             var handler = new MediatorHandler(typeMap, mediator);
-            var eventsConsumer = new EventsConsumer(config, TopicName, handler, Mock.Of<ILogger<EventsConsumer>>());
-            eventsConsumer.Consume(cancellationToken);
+            var eventsConsumer = new CosnumerBackgroundService(
+                config, TopicName, handler, provider.GetRequiredService<ILogger<CosnumerBackgroundService>>());
 
-            await Task.Delay(1000);
-            cts.Cancel();
+            await ExecuteService(eventsConsumer);
         }
 
         [Fact]
         public async Task Consume_single_event_type_with_custom_consumer_wrapper()
         {
+            var provider = new ServiceCollection()
+                .AddLogging(config => config.AddXunit(_testOutputHelper))
+                .BuildServiceProvider();
+
             var config = new ConsumerConfig
             {
                 BootstrapServers = "127.0.0.1:29092",
@@ -123,15 +124,20 @@ namespace Tests.ConfluentKafka
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
                 Acks = Acks.All,
-                AutoCommitIntervalMs = 5000,
             };
 
-            var cts = new CancellationTokenSource();
-            var cancellationToken = cts.Token;
-
             var handler = new IntegerEventHandler(_testOutputHelper);
-            var eventsConsumer = new EventsConsumer(config, TopicName, handler, Mock.Of<ILogger<EventsConsumer>>());
-            eventsConsumer.Consume(cancellationToken);
+            var eventsConsumer = new CosnumerBackgroundService(
+                config, TopicName, handler, provider.GetRequiredService<ILogger<CosnumerBackgroundService>>());
+
+            await ExecuteService(eventsConsumer);
+        }
+
+        private async Task ExecuteService(CosnumerBackgroundService service)
+        {
+            await service.StartAsync(CancellationToken.None);
+            await Task.Delay(5000);
+            await service.StopAsync(CancellationToken.None);
         }
     }
 }

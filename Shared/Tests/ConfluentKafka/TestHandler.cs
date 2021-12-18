@@ -1,6 +1,6 @@
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Tests.ConfluentKafka.Events;
-using Xunit.Abstractions;
 
 namespace Tests.ConfluentKafka
 {
@@ -8,22 +8,22 @@ namespace Tests.ConfluentKafka
         INotificationHandler<IntegerEvent>,
         INotificationHandler<StringEvent>
     {
-        private readonly ITestOutputHelper _testOutputHelper;
+        private readonly ILogger<TestHandler> _logger;
 
-        public TestHandler(ITestOutputHelper testOutputHelper)
+        public TestHandler(ILogger<TestHandler> logger)
         {
-            _testOutputHelper = testOutputHelper;
+            _logger = logger;
         }
 
         public Task Handle(IntegerEvent notification, CancellationToken cancellationToken)
         {
-            _testOutputHelper.WriteLine(notification.Int.ToString());
+            _logger.LogInformation(notification.Int.ToString());
             return Task.CompletedTask;
         }
 
         public Task Handle(StringEvent notification, CancellationToken cancellationToken)
         {
-            _testOutputHelper.WriteLine(notification.String);
+            _logger.LogInformation(notification.String);
             return Task.CompletedTask;
         }
     }
