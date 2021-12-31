@@ -4,6 +4,10 @@ using Notifications.WebService.Dto;
 
 namespace Notifications.WebService.Controllers.V2
 {
+    /// <summary>
+    /// Users controller.
+    /// </summary>
+    /// <remarks>Only for testing purpose.</remarks>
     [ApiController]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]

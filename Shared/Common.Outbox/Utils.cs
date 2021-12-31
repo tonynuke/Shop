@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 
-namespace Common.Outbox.Publisher
+namespace Common.Outbox
 {
     public static class Utils
     {

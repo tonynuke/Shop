@@ -19,7 +19,7 @@ namespace Notifications.Tests.Unit
         }
 
         [Fact]
-        public void Can_link_user_to_device()
+        public void Link_user_to_device()
         {
             var user = new User(Guid.NewGuid());
             user.Devices.Should().BeEmpty();
@@ -31,7 +31,7 @@ namespace Notifications.Tests.Unit
         }
 
         [Fact]
-        public void Can_unlink_user_from_device()
+        public void Unlink_user_from_device()
         {
             var user = new User(Guid.NewGuid());
             var device = _fixture.Create<Device>();
@@ -42,7 +42,7 @@ namespace Notifications.Tests.Unit
         }
 
         [Fact]
-        public void Unlink_user_from_device_when_device_is_not_linked_not_fails()
+        public void Unlink_user_from_device_when_device_is_not_linked()
         {
             var user = new User(Guid.NewGuid());
             var device = _fixture.Create<Device>();

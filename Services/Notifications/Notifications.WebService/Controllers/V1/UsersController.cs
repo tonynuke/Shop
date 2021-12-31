@@ -10,8 +10,8 @@ namespace Notifications.WebService.Controllers.V1
     /// Users controller.
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0", Deprecated = true)]
-    [ApiVersion("1.1")]
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1", Deprecated = true)]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -33,6 +33,7 @@ namespace Notifications.WebService.Controllers.V1
         /// <returns>Asynchronous operation.</returns>
         [HttpPost("link")]
         [MapToApiVersion("1.0")]
+        [Obsolete]
         public async Task LinkToDevice(LinkUserToDeviceDto model)
         {
             //var command = new LinkUserToDeviceCommand();

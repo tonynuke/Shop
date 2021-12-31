@@ -2,6 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "dotnet-swagger",
+    "description": " This API version has been deprecated.",
     "contact": {
       "name": "Anton Romanyuk",
       "email": "tonynuke@hotmail.com"
@@ -53,7 +54,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/api/v1.1/users/unlink": {
@@ -105,7 +107,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     }
   },

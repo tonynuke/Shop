@@ -3,7 +3,7 @@ using System.Linq;
 using FirebaseAdmin.Messaging;
 using Notifications.Domain;
 
-namespace Notifications.Services.Notifications
+namespace Notifications.Services.Firebase
 {
     /// <summary>
     /// Messages generator.
@@ -19,7 +19,7 @@ namespace Notifications.Services.Notifications
         public static MulticastMessage GenerateMulticastMessage(
             User user, Domain.Notification notification)
         {
-            return new ()
+            return new()
             {
                 Tokens = user.Devices.Select(device => device.Token).ToList(),
                 Notification = new FirebaseAdmin.Messaging.Notification

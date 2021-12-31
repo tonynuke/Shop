@@ -8,10 +8,10 @@ namespace Notifications.WebService.Controllers.Integration.V1
     /// <summary>
     /// Users controller.
     /// </summary>
+    /// <remarks>Only for testing purpose.</remarks>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/internal/v{version:apiVersion}/[controller]")]
-    [ApiExplorerSettings(GroupName = "internal")]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;

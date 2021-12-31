@@ -22,6 +22,17 @@ namespace Identity.WebService.Controllers
         }
 
         /// <summary>
+        /// Creates service client.
+        /// </summary>
+        /// <param name="model">Model.</param>
+        /// <returns>Asynchronous operation.</returns>
+        [HttpPost("service")]
+        public async Task CreateServiceClient(CreateServiceClientModel model)
+        {
+            await _clientsService.CreateServiceClient(model.Name, model.Secret, model.Scopes);
+        }
+
+        /// <summary>
         /// Creates client.
         /// </summary>
         /// <param name="model">Model.</param>

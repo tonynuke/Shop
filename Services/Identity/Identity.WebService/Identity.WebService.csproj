@@ -5,6 +5,7 @@
 		<UserSecretsId>aspnet-Identity.WebApplication-34CBE3F8-1605-4549-AC07-3964F1504DE6</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,8 +13,8 @@
 		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
 		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
@@ -21,10 +22,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Identity.Persistence\Identity.Persistence.csproj" />
 		<ProjectReference Include="..\Identity.Services\Identity.Services.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Dto\" />
 	</ItemGroup>
 
 	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
