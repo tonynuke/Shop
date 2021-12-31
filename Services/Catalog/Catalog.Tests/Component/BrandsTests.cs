@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -63,6 +64,11 @@ namespace Catalog.Tests.Component
 
             var updateBrandModel = _fixture.Create<UpdateBrandDto>();
             await _client.UpdateBrandAsync(id, updateBrandModel);
+
+            //var updates = Enumerable.Range(0, 5).Select(x =>
+            //    _client.UpdateBrandAsync(id, updateBrandModel)
+            //);
+            //await Task.WhenAll(updates);
 
             var brand = await _client.FindBrandByIdAsync(id);
             brand.Should().NotBeNull();

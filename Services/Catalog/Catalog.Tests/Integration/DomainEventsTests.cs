@@ -1,10 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture;
 using Catalog.Brands;
 using Catalog.Items;
 using Catalog.Persistence;
+using Common.MongoDb;
+using Common.MongoDb.Entities;
 using CSharpFunctionalExtensions;
 using FluentAssertions;
+using MongoDB.Bson.Serialization;
 using TestUtils.Integration;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,6 +23,32 @@ namespace Catalog.Tests.Integration
         public DomainEventsTests(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
+            try
+            {
+                MongoEntitiesMapsRegistrar.RegisterEntitiesMapsFromAssembly(typeof(EntityBaseMap).Assembly);
+                BsonSerializer.RegisterSerializer(new NameSerializer());
+            }
+            catch
+            {
+                // dont throw exception
+            }
+        }
+
+        [Fact]
+        public async Task Concurrency()
+        {
+            var catalogContext = new CatalogContext(Database);
+            var brandsService = new BrandsService(catalogContext);
+
+            var name = Name.Create(_fixture.Create<string>()).Value;
+            var brand = await brandsService.CreateBrand(new Brands.Dto.CreateBrand(name, _fixture.Create<string>()));
+
+            var updates = Enumerable.Range(0, 5).Select(x =>
+                brandsService.UpdateBrand(new Brands.Dto.UpdateBrand(brand.Value, Name.Create(_fixture.Create<string>()).Value))
+            );
+
+            Func<Task> action = () => Task.WhenAll(updates);
+            await action.Should().ThrowAsync<MongoDbConcurrencyException>();
         }
 
         // TODO: add assertions
