@@ -1,4 +1,4 @@
-﻿namespace Common.Outbox.Consumer
+﻿namespace Common.Outbox.Exceptions
 {
     public class EventsConsumerException : Exception
     {

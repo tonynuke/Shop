@@ -25,6 +25,10 @@
 		<ProjectReference Include="..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Protos\" />
+	</ItemGroup>
+
 	<Target Name="GenerateOpenApiSpecifications" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
 		<PropertyGroup>
 			<OpenApiDir>..\ApiGateway.Client\OpenApi</OpenApiDir>

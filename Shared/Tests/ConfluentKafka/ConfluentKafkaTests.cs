@@ -28,7 +28,8 @@ namespace Tests.ConfluentKafka
                 ClientId = "ASP.NET backend",
             };
 
-            var producer = new ProducerBuilder<string, string>(producerConfig).Build();
+            var producer = new ProducerBuilder<string, string>(producerConfig)
+                .Build();
             _kafkaPublisher = new KafkaPublisher(producer, TopicName);
 
             _testOutputHelper = testOutputHelper;
@@ -85,12 +86,6 @@ namespace Tests.ConfluentKafka
                 .BuildServiceProvider();
             var mediator = provider.GetRequiredService<IMediator>();
 
-            var typeMap = new Dictionary<string, Type>()
-            {
-                {typeof(IntegerEvent).FullName, typeof(IntegerEvent)},
-                {typeof(StringEvent).FullName, typeof(StringEvent)},
-            };
-
             var config = new ConsumerConfig
             {
                 BootstrapServers = "127.0.0.1:29092",
@@ -100,7 +95,7 @@ namespace Tests.ConfluentKafka
                 Acks = Acks.All,
             };
 
-            var handler = new MediatorHandler(typeMap, mediator);
+            var handler = new MediatorHandler(mediator);
             var eventsConsumer = new CosnumerBackgroundService(
                 config, TopicName, handler, provider.GetRequiredService<ILogger<CosnumerBackgroundService>>());
 
@@ -133,7 +128,7 @@ namespace Tests.ConfluentKafka
         private static async Task ExecuteService(CosnumerBackgroundService service)
         {
             await service.StartAsync(CancellationToken.None);
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             await service.StopAsync(CancellationToken.None);
         }
     }

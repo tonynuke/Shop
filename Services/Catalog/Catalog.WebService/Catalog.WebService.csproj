@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.27" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
 		<PackageReference Include="Mapster" Version="7.2.0" />
 		<PackageReference Include="MassTransit" Version="7.3.0" />
 		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />

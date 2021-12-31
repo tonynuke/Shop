@@ -1,7 +1,5 @@
 ﻿using KafkaFlow;
 using KafkaFlow.TypedHandler;
-using System;
-using System.Threading.Tasks;
 using Tests.ConfluentKafka.Events;
 
 namespace Tests.KafkaFlow

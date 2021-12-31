@@ -1,4 +1,6 @@
-﻿using Confluent.Kafka;
+﻿using Common.Outbox.Consumer;
+using Common.Outbox.Exceptions;
+using Confluent.Kafka;
 using Domain;
 using System.Text;
 
@@ -29,9 +31,22 @@ namespace Common.Outbox
 
         public static Header GetTypeHeader(this DomainEventBase @event)
         {
-            var type = @event.GetType().FullName;
-            var typeAsBytes = Encoding.UTF8.GetBytes(type!);
+            // TODO: consider typemap approach for non .net producers, consumers
+            var eventType = @event.GetType();
+            var typeHeader = $"{eventType.FullName}, {eventType.Assembly.GetName().Name}";
+            var typeAsBytes = Encoding.UTF8.GetBytes(typeHeader);
             return new Header(TypeHeader, typeAsBytes);
+        }
+
+        public static Type GetMessageType(this Headers headers)
+        {
+            var isHeaderSpecified = headers.TryGetTypeHeader(out var typeName);
+            if (!isHeaderSpecified)
+            {
+                throw new TypeHeaderIsNotSpecified();
+            }
+
+            return Type.GetType(typeName);
         }
     }
 }
