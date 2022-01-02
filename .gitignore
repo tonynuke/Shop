@@ -363,3 +363,6 @@ pnpm-debug.log*
 
 # FCM
 service_account.json
+
+# Archives
+*.tgz

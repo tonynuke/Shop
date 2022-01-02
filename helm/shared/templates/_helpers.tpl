@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "basket.name" -}}
+{{- define "helm.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "basket.fullname" -}}
+{{- define "helm.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "basket.chart" -}}
+{{- define "helm.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "basket.labels" -}}
-helm.sh/chart: {{ include "basket.chart" . }}
-{{ include "basket.selectorLabels" . }}
+{{- define "helm.labels" -}}
+helm.sh/chart: {{ include "helm.chart" . }}
+{{ include "helm.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,18 +45,28 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "basket.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "basket.name" . }}
+{{- define "helm.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "helm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "basket.serviceAccountName" -}}
+{{- define "helm.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "basket.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "helm.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create environment variables of the service
+*/}}
+{{- define "helm.env" -}}
+{{ range $key, $value := .Values.env }}
+- name: {{ $key | quote }}
+  value: {{ $value | quote }}
 {{- end }}
 {{- end }}

@@ -3,18 +3,24 @@ ASP.NET Core shop on microservices
 
 # Requirements
 1. Docker
-2. Kubernetes
-3. Helm
+1. Kubernetes
+1. Helm
 
 # Build
 
 ## Concrete service
 1. Open at git repository root
-2. Execute `docker build -f "$pwd\Services\Catalog\Catalog.WebService\Dockerfile" --force-rm -t "tony/catalog:1.0.0" .`
+1. Execute `docker build -f "$pwd\Services\Catalog\Catalog.WebService\Dockerfile" --force-rm -t "tony/catalog:1.0.0" .`
 
 ## All services
 1. Open at git repository root
-2. Execute `docker-compose -f docker-compose.db.yml -f docker-compose.yml up -d -b`
+1. Execute `docker-compose -f docker-compose.db.yml -f docker-compose.yml up -d -b`
+
+# Deploy
+
+1. Open service directory `Shop\helm\basket`
+1. Execute `helm dependency update`
+1. Execute `helm upgrade --install basket . --namespace=local --dry-run`
 
 # Tests
 

@@ -2,10 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+env:
+  DatabaseConfiguration__ConnectionString: "mongodb://mongodb-1641029259:27017"
+
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: tony/basket
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

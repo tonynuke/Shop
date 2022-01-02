@@ -1,9 +1,10 @@
+{{- define "shared.service" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "basket.fullname" . }}
+  name: {{ include "helm.fullname" . }}
   labels:
-    {{- include "basket.labels" . | nindent 4 }}
+    {{- include "helm.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +13,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "basket.selectorLabels" . | nindent 4 }}
+    {{- include "helm.selectorLabels" . | nindent 4 }}
+{{ end }}

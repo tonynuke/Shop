@@ -1,0 +1,9 @@
+{{- include "shared.ingress" . }}
+---
+{{- include "shared.service" . }}
+---
+{{- include "shared.deployment" . }}
+---
+{{- include "shared.serviceaccount" . }}
+---
+{{- include "shared.hpa" . }}
