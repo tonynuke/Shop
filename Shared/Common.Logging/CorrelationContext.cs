@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Common.Logging
+﻿namespace Common.Logging
 {
     /// <summary>
     /// Correlation context.
