@@ -13,7 +13,7 @@ namespace Notifications.Domain
         /// </summary>
         /// <param name="title">Title.</param>
         /// <param name="body">Body.</param>
-        public Notification(string title, string body)
+        private Notification(string title, string body)
         {
             Title = title;
             Body = body;
