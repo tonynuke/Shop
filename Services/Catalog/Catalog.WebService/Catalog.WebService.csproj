@@ -10,6 +10,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+		<PackageReference Include="HotChocolate.AspNetCore" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.Data.MongoDb" Version="12.7.0" />
 		<PackageReference Include="Mapster" Version="7.3.0" />
 		<PackageReference Include="MassTransit" Version="8.0.1" />
 		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />

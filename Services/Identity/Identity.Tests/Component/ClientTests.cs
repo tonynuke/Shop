@@ -11,19 +11,19 @@ namespace Identity.Tests.Component
     [Collection(StandCollectionFixture.Name)]
     public class ClientTests
     {
-        private readonly StandFixture<Startup> _stand;
+        private readonly TestContext<Startup> _testContext;
 
-        public string Host => _stand.Host.Server.BaseAddress.AbsoluteUri;
+        public string Host => _testContext.Factory.Server.BaseAddress.AbsoluteUri;
 
-        public ClientTests(StandFixture<Startup> stand)
+        public ClientTests(TestContext<Startup> stand)
         {
-            _stand = stand;
+            _testContext = stand;
         }
 
         [Fact]
         public async Task Can_authorize_service_to_service_call()
         {
-            var httpClient = _stand.Host.CreateClient();
+            var httpClient = _testContext.Factory.CreateClient();
 
             var identityClient = new IdentityClient(httpClient);
             //var createClientModel = new CreateClientModel

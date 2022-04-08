@@ -23,20 +23,20 @@ namespace Catalog.Tests.Component
         private readonly Fixture _fixture = new ();
         private readonly ICatalogClient _client;
         private readonly Guid _userId = Guid.NewGuid();
-        private readonly StandFixture<Startup> _stand;
+        private readonly TestContext<Startup> _testContext;
 
-        public BrandsTests(StandFixture<Startup> stand, ITestOutputHelper testOutputHelper)
+        public BrandsTests(TestContext<Startup> stand, ITestOutputHelper testOutputHelper)
         {
-            _stand = stand;
+            _testContext = stand;
 
-            var configuration = _stand.Host.Configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
+            var configuration = _testContext.Configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
             var tokenGenerator = new AccessTokenGenerator(configuration);
             var token = tokenGenerator.GetJwtTokenByClaims(_userId, new[]
             {
                 new Claim(AuthorizationPolicies.Catalog, "all"),
             });
 
-            var httpClient = stand.Host.CreateClient();
+            var httpClient = stand.Factory.CreateClient();
             var authorization = new AuthenticationHeaderValue(
                 JwtBearerDefaults.AuthenticationScheme, token);
             httpClient.DefaultRequestHeaders.Authorization = authorization;

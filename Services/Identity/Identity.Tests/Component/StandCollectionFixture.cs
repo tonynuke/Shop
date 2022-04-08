@@ -6,7 +6,7 @@ using Xunit;
 namespace Identity.Tests.Component
 {
     [CollectionDefinition(Name)]
-    public class StandCollectionFixture : ICollectionFixture<StandFixture<Startup>>
+    public class StandCollectionFixture : ICollectionFixture<TestContext<Startup>>
     {
         public const string Name = nameof(StandCollectionFixture);
     }

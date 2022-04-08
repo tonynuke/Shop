@@ -72,6 +72,11 @@ namespace Catalog.WebService
                 var publisher = new RabbitMqPublisher(publishEndpoint);
                 return new EventsPublisher(context, publisher);
             });
+
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMongoDbFiltering();
         }
 
         private static bool Handler(AuthorizationHandlerContext arg)
@@ -87,6 +92,8 @@ namespace Catalog.WebService
             MigrationsExtensions.ApplyDevelopmentMigrations<CatalogContext>(app, env);
             app.UseHangfireDashboard();
             ConfigureJobs();
+
+            app.UseEndpoints(endpoints => endpoints.MapGraphQL());
         }
 
         private static void ConfigureJobs()

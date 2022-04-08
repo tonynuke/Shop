@@ -22,20 +22,20 @@ namespace Basket.Tests.Component.Grpc
     public class GrpcBasketTests
     {
         private readonly GrpcChannel _grpcChannel;
-        private readonly StandFixture<Startup> _stand;
+        private readonly TestContext<Startup> _testContext;
         private readonly GrpcClient.Basket.BasketClient _client;
         private readonly Guid _userId = Guid.NewGuid();
         private readonly Metadata _headers;
 
-        public GrpcBasketTests(StandFixture<Startup> stand)
+        public GrpcBasketTests(TestContext<Startup> stand)
         {
-            _stand = stand;
+            _testContext = stand;
 
-            var configuration = _stand.Host.Configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
+            var configuration = _testContext.Configuration.GetSection(IdentityConfiguration.Key).Get<IdentityConfiguration>();
             var tokenGenerator = new AccessTokenGenerator(configuration);
             var token = tokenGenerator.GetJwtTokenByClaims(_userId);
 
-            var httpClient = stand.Host.CreateDefaultClient();
+            var httpClient = stand.Factory.CreateDefaultClient();
             var authorization = new AuthenticationHeaderValue(
                 JwtBearerDefaults.AuthenticationScheme, token);
             httpClient.DefaultRequestHeaders.Authorization = authorization;

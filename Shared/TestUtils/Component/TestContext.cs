@@ -1,32 +1,60 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
+using Xunit.Abstractions;
 
 namespace TestUtils.Component
 {
     /// <summary>
-    /// Stand.
+    /// Test context.
     /// </summary>
     /// <typeparam name="TStartup">Startup.</typeparam>
-    public class StandFixture<TStartup> : IDisposable
+    public class TestContext<TStartup> : IDisposable
         where TStartup : class
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StandFixture{TStartup}"/> class.
+        /// Initializes a new instance of the <see cref="TestContext{TStartup}"/> class.
         /// </summary>
-        public StandFixture()
+        public TestContext()
         {
             int port = WireMockServer.Ports.Single();
-            Host = new WebApplicationFixture<TStartup>(port);
+
+            using var stream = AppSettingsHelper.GetOverridenAppSettings(port);
+            Configuration = new ConfigurationBuilder()
+                .AddJsonStream(stream)
+                .AddEnvironmentVariables()
+                .Build();
+
+            Factory = new WebApplicationFactory<TStartup>()
+                .WithWebHostBuilder(s =>
+                    s.ConfigureAppConfiguration(builder =>
+                        {
+                            builder.Sources.Clear();
+                            builder.AddConfiguration(Configuration);
+                        })
+                        .ConfigureLogging(builder =>
+                        {
+                            // TODO: create test context per test if you need logging.
+                            builder.ClearProviders();
+                        }));
         }
 
         /// <summary>
-        /// Gets web application.
+        /// Gets configuration.
         /// </summary>
-        public WebApplicationFixture<TStartup> Host { get; }
+        public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// Gets web application factory.
+        /// </summary>
+        public WebApplicationFactory<TStartup> Factory { get; }
 
         /// <summary>
         /// Gets wireMock server.
@@ -39,7 +67,7 @@ namespace TestUtils.Component
             WireMockServer.Stop();
             WireMockServer.Dispose();
 
-            Host.Dispose();
+            Factory.Dispose();
         }
 
         /// <summary>
