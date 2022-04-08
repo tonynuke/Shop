@@ -144,7 +144,7 @@
         "operationId": "ClearBasket",
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "400": {
             "description": "",

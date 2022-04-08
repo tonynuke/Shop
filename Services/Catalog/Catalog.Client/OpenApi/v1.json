@@ -206,7 +206,7 @@
         },
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "409": {
             "description": "Conflict",
@@ -260,7 +260,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "400": {
             "description": "",
@@ -569,7 +569,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "400": {
             "description": "",

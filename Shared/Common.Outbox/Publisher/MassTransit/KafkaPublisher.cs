@@ -1,5 +1,5 @@
 ﻿using Domain;
-using MassTransit.KafkaIntegration;
+using MassTransit;
 
 namespace Common.Outbox.Publisher.MassTransit
 {

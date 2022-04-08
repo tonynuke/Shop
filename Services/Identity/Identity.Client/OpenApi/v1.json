@@ -161,7 +161,7 @@
         "operationId": "CreateApiResource",
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           }
         }
       }
@@ -193,7 +193,7 @@
         },
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           }
         }
       }

@@ -2,9 +2,7 @@
 using Common.Hosting.Configuration;
 using Common.Outbox.Publisher;
 using Domain;
-using GreenPipes;
 using MassTransit;
-using MassTransit.KafkaIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,8 +33,6 @@ namespace Catalog.WebService
                     configurator.ConfigureEndpoints(context);
                 });
             });
-
-            services.AddMassTransitHostedService();
 
             return services;
         }
@@ -69,8 +65,6 @@ namespace Catalog.WebService
                     });
                 });
             });
-
-            services.AddMassTransitHostedService();
 
             return services;
         }
