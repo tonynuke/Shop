@@ -4,7 +4,9 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<UserSecretsId>cf9c7ec6-a876-4114-a3d8-f0843d4d9e66</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..\..</DockerfileContext>		
+		<DockerfileContext>..\..\..</DockerfileContext>
+		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+		<BaseOutputPath>..\..\..\bin</BaseOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
