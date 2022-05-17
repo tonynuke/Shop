@@ -3,13 +3,14 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CSharpFunctionalExtensions" Version="2.29.0" />
-		<PackageReference Include="MassTransit" Version="8.0.1" />
+		<PackageReference Include="CSharpFunctionalExtensions" Version="2.29.1" />
+		<PackageReference Include="MassTransit" Version="8.0.2" />
 		<PackageReference Include="MediatR" Version="10.0.1" />
-		<PackageReference Include="NEST" Version="7.17.0" />
+		<PackageReference Include="NEST" Version="7.17.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Shared\Commom.ApiErrors\Commom.ApiErrors.csproj" />
+	  <ProjectReference Include="..\..\..\Shared\Common.ApiErrors\Common.ApiErrors.csproj" />
 	  <ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
 	  <ProjectReference Include="..\..\..\Shared\Common.Utils\Common.Utils.csproj" />
 	  <ProjectReference Include="..\Catalog.Messages\Catalog.Messages.csproj" />

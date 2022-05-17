@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Catalog.Brands.Dto;
 using Catalog.Persistence;
-using Commom.ApiErrors.Errors;
+using Common.ApiErrors.Errors;
 using Common.MongoDb;
 using Common.Utils.Pagination;
 using CSharpFunctionalExtensions;

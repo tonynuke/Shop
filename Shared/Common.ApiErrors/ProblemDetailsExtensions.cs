@@ -1,7 +1,7 @@
 ﻿using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Http;
 
-namespace Commom.ApiErrors
+namespace Common.ApiErrors
 {
     public class ProblemDetailsExtensions
     {

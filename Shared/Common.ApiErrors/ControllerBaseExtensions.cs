@@ -1,11 +1,11 @@
-﻿using Commom.ApiErrors.Errors;
+﻿using Common.ApiErrors.Errors;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Commom.ApiErrors
+namespace Common.ApiErrors
 {
     public static class ControllerBaseExtensions
     {

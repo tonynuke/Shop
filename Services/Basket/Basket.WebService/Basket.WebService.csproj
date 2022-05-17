@@ -6,20 +6,21 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Shared\Commom.ApiErrors\Commom.ApiErrors.csproj" />
+		<ProjectReference Include="..\..\..\Shared\Common.ApiErrors\Common.ApiErrors.csproj" />
 		<ProjectReference Include="..\..\..\Shared\Common.Hosting\Common.Hosting.csproj" />
 		<ProjectReference Include="..\..\..\Shared\Common.MongoDb\Common.MongoDb.csproj" />
 		<ProjectReference Include="..\..\Catalog\Catalog.Client\Catalog.Client.csproj" />

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Catalog.Indexing;
 using Catalog.Items;
 using Catalog.WebService.Dto.Items;
-using Commom.ApiErrors;
+using Common.ApiErrors;
 using Common.Utils.Pagination;
 using CSharpFunctionalExtensions;
 using Mapster;

@@ -1,4 +1,4 @@
-﻿namespace Commom.ApiErrors.Errors
+﻿namespace Common.ApiErrors.Errors
 {
     public static class ErrorCodes
     {

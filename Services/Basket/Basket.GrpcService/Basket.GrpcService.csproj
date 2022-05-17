@@ -4,7 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<UserSecretsId>cf9c7ec6-a876-4114-a3d8-f0843d4d9e66</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerfileContext>..\..\..</DockerfileContext>		
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,9 +12,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Grpc.AspNetCore" Version="2.44.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.46.0" />
 		<PackageReference Include="Mapster" Version="7.3.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
 	</ItemGroup>
 
 	<ItemGroup>

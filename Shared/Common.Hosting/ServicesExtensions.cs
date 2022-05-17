@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Commom.ApiErrors;
+using Common.ApiErrors;
 using Common.Hosting.Auth;
 using Common.Logging;
 using Common.Swagger;
@@ -44,7 +44,7 @@ namespace Common.Hosting
             services.ConfigureAuthorization();
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddProblemDetails(Commom.ApiErrors.ProblemDetailsExtensions.ConfigureProblemDetails);
+            services.AddProblemDetails(Common.ApiErrors.ProblemDetailsExtensions.ConfigureProblemDetails);
             services.AddControllers()
                 .AddProblemDetailsConventions()
                 .AddJsonOptions(options =>

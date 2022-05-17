@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Commom.ApiErrors.Errors
+namespace Common.ApiErrors.Errors
 {
     public class ErrorProblemDetails<TError>
         : ProblemDetails

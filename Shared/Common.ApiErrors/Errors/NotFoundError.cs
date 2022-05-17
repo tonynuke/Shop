@@ -1,4 +1,4 @@
-﻿namespace Commom.ApiErrors.Errors
+﻿namespace Common.ApiErrors.Errors
 {
     public class NotFoundError : Error
     {

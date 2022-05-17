@@ -109,9 +109,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Swagger", "Shared\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Outbox", "Shared\Common.Outbox\Common.Outbox.csproj", "{C4F2E1DE-010D-4CDA-ADFA-6D5CC47890CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commom.ApiErrors", "Shared\Commom.ApiErrors\Commom.ApiErrors.csproj", "{15D29385-C502-4B97-8EC7-677D2661A0E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApiErrors", "Shared\Common.ApiErrors\Common.ApiErrors.csproj", "{15D29385-C502-4B97-8EC7-677D2661A0E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "Shared\Common.Logging\Common.Logging.csproj", "{33C7337A-CDEE-42AF-BDC4-0C1B4FF6F0AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging", "Shared\Common.Logging\Common.Logging.csproj", "{33C7337A-CDEE-42AF-BDC4-0C1B4FF6F0AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Hosting", "Shared\Common.Hosting\Common.Hosting.csproj", "{4F44A5CE-FBE1-4B71-8826-6C045A2B45ED}"
 EndProject

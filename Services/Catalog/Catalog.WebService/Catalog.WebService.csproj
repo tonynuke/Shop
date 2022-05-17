@@ -6,28 +6,29 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DockerfileContext>..\..\..</DockerfileContext>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
-		<PackageReference Include="HotChocolate.AspNetCore" Version="12.7.0" />
-		<PackageReference Include="HotChocolate.Data.MongoDb" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.AspNetCore" Version="12.9.0" />
+		<PackageReference Include="HotChocolate.Data.MongoDb" Version="12.9.0" />
 		<PackageReference Include="Mapster" Version="7.3.0" />
-		<PackageReference Include="MassTransit" Version="8.0.1" />
+		<PackageReference Include="MassTransit" Version="8.0.2" />
 		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
-		<PackageReference Include="MassTransit.Kafka" Version="8.0.1" />
-		<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.1" />
+		<PackageReference Include="MassTransit.Kafka" Version="8.0.2" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.2" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-		<PackageReference Include="NEST" Version="7.17.0" />
+		<PackageReference Include="NEST" Version="7.17.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>

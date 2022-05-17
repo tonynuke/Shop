@@ -2,18 +2,19 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
 	  <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
 	  <PackageReference Include="Hangfire.Mongo" Version="1.7.0" />
-	  <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.1" />
+	  <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.2" />
 	  <PackageReference Include="IdentityModel" Version="6.0.0" />
-	  <PackageReference Include="MassTransit.Kafka" Version="8.0.1" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
-	  <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.3" />
-	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.3" />
+	  <PackageReference Include="MassTransit.Kafka" Version="8.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.5" />
 	  <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
 	  <PackageReference Include="prometheus-net" Version="6.0.0" />
 	  <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
@@ -25,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Commom.ApiErrors\Commom.ApiErrors.csproj" />
+	  <ProjectReference Include="..\Common.ApiErrors\Common.ApiErrors.csproj" />
 	  <ProjectReference Include="..\Common.Logging\Common.Logging.csproj" />
 	  <ProjectReference Include="..\Common.MongoDb\Common.MongoDb.csproj" />
 	  <ProjectReference Include="..\Common.Swagger\Common.Swagger.csproj" />

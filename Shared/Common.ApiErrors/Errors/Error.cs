@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commom.ApiErrors.Errors
+namespace Common.ApiErrors.Errors
 {
     /// <summary>
     /// Error.

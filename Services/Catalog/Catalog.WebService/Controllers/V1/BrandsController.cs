@@ -4,7 +4,7 @@ using Catalog.Brands;
 using Catalog.Brands.Dto;
 using Catalog.Items;
 using Catalog.WebService.Dto.Brands;
-using Commom.ApiErrors;
+using Common.ApiErrors;
 using Common.Utils.Pagination;
 using CSharpFunctionalExtensions;
 using Mapster;
